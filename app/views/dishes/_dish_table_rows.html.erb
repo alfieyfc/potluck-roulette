@@ -1,0 +1,19 @@
+<% @dishes.each do |dish| %>
+  <tr>
+    <td>
+      <%= dish.id %>
+    </td>
+    <td>
+      <%= link_to dish.name, dish.img_url, target: :_blank %>
+
+    </td>
+    <td>
+      <%= link_to "show", dish %>
+    <td>
+      <i>event_id</i>
+    </td>
+    <td>
+      <strong><i>user001</i></strong>
+    </td>
+  </tr>
+<% end %>
