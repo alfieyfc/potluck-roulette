@@ -1,2 +1,17 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-5 col-md-6">
+      <% if user_signed_in? %>
+        <h2>Welcome, <%= current_user.email %>!!</h2>
+        
+      <% else %>
+        <h2>Welcome, Amateur Cooks!!</h2>
+        <%= render 'login_form'%>
+      <% end %>
+    </div>
+    <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
+      <%= render 'dishes/dish_carousel' %>
+    </div>
+  </div>
+
+</div>
