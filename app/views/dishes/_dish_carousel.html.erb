@@ -7,8 +7,7 @@
   <div class="carousel-inner">
     <% i = 0 %>
     <% @dishes.order(Arel.sql('RANDOM()')).first(3).each do |dish| %>
-      <% user_id = @dishes_users.find_by(dish_id: dish.id).user_id %>
-      <% user_name = @users.find_by(id: user_id).name %>
+      <% user_name = @users.find_by(id: dish.user_id).name %>
       <% if i == 0 %>
         <div class="carousel-item active">
       <% else %>
