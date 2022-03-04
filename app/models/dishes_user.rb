@@ -1,0 +1,3 @@
+class DishesUser < ApplicationRecord
+
+end

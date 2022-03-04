@@ -7,16 +7,20 @@
   <div class="carousel-inner">
     <% i = 0 %>
     <% @dishes.order(Arel.sql('RANDOM()')).first(3).each do |dish| %>
+      <% user_id = @dishes_users.find_by(dish_id: dish.id).user_id %>
+      <% user_name = @users.find_by(id: user_id).name %>
       <% if i == 0 %>
         <div class="carousel-item active">
       <% else %>
         <div class="carousel-item">
       <% end %>
       <% i += 1 %>
+        <div class="container" style="height: 15rem">
         <img src=<%= dish.img_url %> class="d-block w-100" alt="...">
+        </div>
         <div class="carousel-caption d-none d-md-block" style="background-color: #00000066">
           <h5><%= dish.name %></h5>
-          <p><%= dish.id %></p>
+          <p><%= user_name %></p>
         </div>
       </div>
     <% end %>
