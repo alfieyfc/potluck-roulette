@@ -1,17 +1,32 @@
-<div class="container">
+<div class="container mt-4">
   <div class="row">
-    <div class="col-sm-5 col-md-6">
       <% if user_signed_in? %>
         <h2>Welcome, <%= current_user.email %>!!</h2>
-        
       <% else %>
         <h2>Welcome, Amateur Cooks!!</h2>
-        <%= render 'login_form'%>
+      <% end %>
+  </div>
+
+  <div class="row" style="height: 15rem">
+    <div class="col-sm-5 col-md-6">
+      <% if notice %>
+        <%= render 'layouts/alerts'%>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <%= render 'user_menu' %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= render 'login_form', locals: { resource: current_user, resource_name: :user }%>
       <% end %>
     </div>
     <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
-      <%= render 'dishes/dish_carousel' %>
+      <%= render "dishes/dish_carousel" %>
     </div>
+  </div>
+
+  <div class="row">
+    <%= render 'event_list' %>
   </div>
 
 </div>
