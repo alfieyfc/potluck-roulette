@@ -10,10 +10,10 @@
     <td>
       <%= link_to "show", dish %>
     <td>
-      <i>event_id</i>
+      <i><%= @events.find_by(id: dish.event_id).event_date %></i>
     </td>
     <td>
-      <strong><i>user001</i></strong>
+      <strong><i><%= @users.find_by(id: dish.user_id).name %></i></strong>
     </td>
   </tr>
 <% end %>

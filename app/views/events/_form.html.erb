@@ -12,11 +12,35 @@
   <% end %>
 
   <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
     <%= form.label :event_date, style: "display: block" %>
     <%= form.date_field :event_date %>
+  </div>
+
+  <div>
+    <%= form.label :max_players, "Max Number of Players:" %><span> </span><span id="rangeval">2</span>
+    <%= form.range_field :max_players, id: "max_player", in: 1..8, step: 1, value: 2, class: "d-block", oninput: 'document.getElementById("rangeval").innerText = document.getElementById("max_player").value' %>
+  </div>
+
+  <div>
+    <%= form.label :public %>
+    <%= form.check_box  :public %>
+  </div>
+
+  <div>
+    <%= form.hidden_field :user_id, value: current_user.id, style: "display: block" %>
+  </div>
+
+  <div>
+    <%= form.hidden_field :room_id, value: @new_room_id, style: "display: block" %>
   </div>
 
   <div>
     <%= form.submit %>
   </div>
 <% end %>
+

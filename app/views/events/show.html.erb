@@ -7,4 +7,5 @@
   <%= link_to "Back to events", events_path %>
 
   <%= button_to "Destroy this event", @event, method: :delete %>
+  <%= link_to "Create Dish", new_dish_path(:event_id => @event.id) %>
 </div>

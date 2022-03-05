@@ -22,7 +22,11 @@
   </div>
 
   <div>
-    <%= form.number_field :user_id, value: current_user.id, type: :hidden %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </div>
+
+  <div>
+    <%= form.hidden_field :event_id, value: @event.id %>
   </div>
 
   <div>

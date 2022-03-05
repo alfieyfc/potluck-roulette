@@ -4,6 +4,8 @@ class DishesController < ApplicationController
   # GET /dishes or /dishes.json
   def index
     @dishes = Dish.all
+    @events = Event.all
+    @users = User.all
   end
 
   # GET /dishes/1 or /dishes/1.json
@@ -13,6 +15,7 @@ class DishesController < ApplicationController
   # GET /dishes/new
   def new
     @dish = Dish.new
+    @event =  Event.find(params[:event_id])
   end
 
   # GET /dishes/1/edit
@@ -64,6 +67,6 @@ class DishesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def dish_params
-      params.require(:dish).permit(:name, :img_url, :user_id)
+      params.require(:dish).permit(:name, :img_url, :user_id, :event_id)
     end
 end

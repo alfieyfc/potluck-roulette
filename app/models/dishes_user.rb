@@ -1,3 +1,0 @@
-class DishesUser < ApplicationRecord
-
-end

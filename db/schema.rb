@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_04_201428) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_04_204102) do
   create_table "dishes", force: :cascade do |t|
     t.string "name"
     t.string "img_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "event_id"
+    t.index ["event_id"], name: "index_dishes_on_event_id"
     t.index ["user_id"], name: "index_dishes_on_user_id"
   end
 
@@ -24,6 +26,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_04_201428) do
     t.date "event_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "room_id"
+    t.integer "max_players"
+    t.integer "user_id"
+    t.boolean "public"
+    t.index ["room_id"], name: "index_events_on_room_id"
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

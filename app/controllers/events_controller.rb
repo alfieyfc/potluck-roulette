@@ -1,6 +1,9 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
 
+  before_action :create_room_id, only: %i[ new ]
+
+
   # GET /events or /events.json
   def index
     @events = Event.all
@@ -65,6 +68,14 @@ class EventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_params
-      params.require(:event).permit(:event_date)
+      params.require(:event).permit(:event_date, :title, :max_players, :user_id, :room_id, :public)
     end
+
+
+  def create_room_id
+    loop do
+      @new_room_id = SecureRandom.urlsafe_base64(4).upcase
+      break unless Event.exists?(:room_id => @new_room_id)
+    end
+  end
 end

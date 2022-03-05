@@ -1,0 +1,37 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Event Name</th>
+      <th scope="col">Room ID</th>
+      <th scope="col">Players</th>
+      <th scope="col">Date</th>
+      <th scope="col">Host</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @events.each do |event| %>
+    <tr>
+      <td>
+        <%= event.title %>
+      </td>
+      <td>
+        <% if user_signed_in? %>
+        <%= link_to event.room_id, event %>
+        <% else %>
+        <%= event.room_id %>
+        <% end %>
+      </td>
+      <td>
+        <% players = 1 %>
+        <%= players %><span>/<%= event.max_players %>
+      <td>
+        <i><%= event.event_date %></i>
+      </td>
+      <td>
+        <strong><i><%= @users.find_by(id: event.user_id).name %></i></strong>
+      </td>
+    </tr>
+  <% end %>
+
+  </tbody>
+</table>
