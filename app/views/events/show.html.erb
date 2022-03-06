@@ -1,11 +1,21 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @event %>
+<%= render "event_participant_list" %>
 
 <div>
   <%= link_to "Edit this event", edit_event_path(@event) %> |
   <%= link_to "Back to events", events_path %>
 
-  <%= button_to "Destroy this event", @event, method: :delete %>
+  <% if current_user.id == @event.owner_id %>
+    <%= button_to "Destroy this event", @event, method: :delete %>
+  <% end %>
+
+  <% if !Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
+    <%= button_to "Join this event", join_event_path(@event) %>
+  <% else %>
+    <%= button_to "Leave this event", leave_event_path(@event) %>
+  <% end %>
   <%= link_to "Create Dish", new_dish_path(:event_id => @event.id) %>
+
 </div>

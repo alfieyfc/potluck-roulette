@@ -28,7 +28,7 @@
         <i><%= event.event_date %></i>
       </td>
       <td>
-        <strong><i><%= @users.find_by(id: event.user_id).name %></i></strong>
+        <strong><i><%= @users.find_by(id: event.owner).name %></i></strong>
       </td>
     </tr>
   <% end %>

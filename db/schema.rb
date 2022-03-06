@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_04_204102) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_06_152637) do
   create_table "dishes", force: :cascade do |t|
     t.string "name"
     t.string "img_url"
@@ -29,10 +29,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_04_204102) do
     t.string "title"
     t.string "room_id"
     t.integer "max_players"
-    t.integer "user_id"
     t.boolean "public"
+    t.integer "owner_id"
+    t.index ["owner_id"], name: "index_events_on_owner_id"
     t.index ["room_id"], name: "index_events_on_room_id"
-    t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "participations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_participations_on_event_id"
+    t.index ["user_id"], name: "index_participations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,4 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_04_204102) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "events", "users", column: "owner_id"
+  add_foreign_key "participations", "events"
+  add_foreign_key "participations", "users"
 end
