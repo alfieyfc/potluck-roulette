@@ -1,25 +1,30 @@
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">Participants</th>
+      <th scope="col" colspan="2" class="text-center">Participants</th>
+      <th scope="col" colspan="5">Dishes</th>
     </tr>
   </thead>
   <tbody>
-  <% @participations.where(event_id: @event.id).each do |participation| %>
-    <tr>
-      <td>
-        <% user = @users.find_by(id: participation.user_id) %>
-        <%= user.name %>
-      </td>
-      <td>
-        <% if user.id == @event.owner_id %>
-          Host
-        <% else %>
-          Guest
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-
+    <% Participation.where(event_id: @event.id).each do |participation| %>
+      <% user = User.find_by(id: participation.user_id) %>
+      <tr>
+        <td>
+          <%= user.name %>
+        </td>
+        <td>
+          <% if user.id == @event.owner_id %>
+            Host
+          <% else %>
+            Guest
+          <% end %>
+        </td>
+        <td  colspan="5">
+          <% Dish.where(event_id: @event.id, user_id: user.id).each do |dish| %>
+            <p><%= link_to dish.name, dish_path(dish) %></p>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

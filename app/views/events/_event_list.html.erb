@@ -22,8 +22,7 @@
         <% end %>
       </td>
       <td>
-        <% players = 1 %>
-        <%= players %><span>/<%= event.max_players %>
+        <%= Participation.where(event_id: event.id).count %><span>/<%= event.max_players %></span>
       <td>
         <i><%= event.event_date %></i>
       </td>

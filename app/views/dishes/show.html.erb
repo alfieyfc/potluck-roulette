@@ -1,10 +1,29 @@
-<p style="color: green"><%= notice %></p>
+<% if flash %>
+  <%= render 'layouts/alerts' %>
+<% end %>
 
-<%= render @dish %>
+<div class="container mt-4">
 
-<div>
-  <%= link_to "Edit this dish", edit_dish_path(@dish) %> |
-  <%= link_to "Back to dishes", dishes_path %>
+  <%= render @dish %>
 
-  <%= button_to "Destroy this dish", @dish, method: :delete %>
+  <div class="m-2">
+    <% if current_user.id == @dish.user_id %>
+
+    <div class="row">
+      <div class="col-3 p-0 m-1">
+        <%= button_to "Edit this dish", edit_dish_path(@dish), method: :get, class: "btn-sm w-100" %>
+      </div>
+      <div class="col-3 p-0 m-1">
+        <%= button_to "Remove this dish", @dish, method: :delete, class: "btn-sm w-100" %>
+      </div>
+
+      <% end %>
+    </div>
+    <div class="row">
+      <div class="col-3 p-0 m-1">
+        <%= button_to "Back to event", event_path(@dish.event_id), method: :get, class: "btn-sm w-100" %>
+      </div>
+    </div>
+  </div>
+
 </div>

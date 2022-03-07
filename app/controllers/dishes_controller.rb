@@ -1,11 +1,9 @@
 class DishesController < ApplicationController
-  before_action :set_dish, only: %i[ show edit update destroy ]
+  prepend_before_action :set_dish, only: %i[ show edit update destroy ]
 
   # GET /dishes or /dishes.json
   def index
     @dishes = Dish.all
-    @events = Event.all
-    @users = User.all
   end
 
   # GET /dishes/1 or /dishes/1.json
@@ -15,7 +13,7 @@ class DishesController < ApplicationController
   # GET /dishes/new
   def new
     @dish = Dish.new
-    @event =  Event.find(params[:event_id])
+    @event = Event.find(params[:event_id])
   end
 
   # GET /dishes/1/edit
@@ -25,9 +23,11 @@ class DishesController < ApplicationController
   # POST /dishes or /dishes.json
   def create
     @dish = Dish.new(dish_params)
+    get_event
     respond_to do |format|
       if @dish.save
-        format.html { redirect_to dish_url(@dish), notice: "Dish was successfully created." }
+        flash[:success] = "Dish was successfully created."
+        format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :created, location: @dish }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,9 +38,11 @@ class DishesController < ApplicationController
 
   # PATCH/PUT /dishes/1 or /dishes/1.json
   def update
+    get_event
     respond_to do |format|
       if @dish.update(dish_params)
-        format.html { redirect_to dish_url(@dish), notice: "Dish was successfully updated." }
+        flash[:success] = "Dish was successfully updated."
+        format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :ok, location: @dish }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,9 +54,10 @@ class DishesController < ApplicationController
   # DELETE /dishes/1 or /dishes/1.json
   def destroy
     @dish.destroy
-
+    get_event
     respond_to do |format|
-      format.html { redirect_to dishes_url, notice: "Dish was successfully destroyed." }
+      flash[:warning] = "Dish was successfully deleted."
+      format.html { redirect_to event_url(@event) }
       format.json { head :no_content }
     end
   end
@@ -63,6 +66,11 @@ class DishesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_dish
       @dish = Dish.find(params[:id])
+    end
+
+    # Use callbacks to share common setup or constraints between actions.
+    def get_event
+      @event = Event.find(@dish.event_id)
     end
 
     # Only allow a list of trusted parameters through.

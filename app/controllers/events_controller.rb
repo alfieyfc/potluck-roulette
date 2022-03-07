@@ -11,18 +11,24 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show
-    @users = User.all
-    @participations = Participation.all
+
   end
 
   # POST /events/1/join
   def join
-    add_participant(current_user.id, @event.id)
+    respond_to do |format|
+      if alert_msg = add_participant(current_user.id)
+        flash[:success] = alert_msg
+        format.html { redirect_to event_url(@event) }
+        format.json { render :show, status: :ok, location: @event }
+      end
+
+    end
   end
 
   # POST /events/1/leave
   def leave
-    remove_participant(current_user.id, @event.id)
+    remove_participant(current_user.id)
   end
 
   # GET /events/new
@@ -40,8 +46,9 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        add_participant(current_user.id, @event.id)
-        format.html { redirect_to event_url(@event), notice: "Event was successfully created." }
+
+        flash[:success] = add_participant(current_user.id)
+        format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -54,7 +61,8 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to event_url(@event), notice: "Event was successfully updated." }
+        flash[:success] = "Event was successfully updated."
+        format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -68,7 +76,8 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to events_url, notice: "Event was successfully destroyed." }
+      flash[:warning] = "Event was successfully destroyed."
+      format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
@@ -98,35 +107,27 @@ class EventsController < ApplicationController
     end
   end
 
-  def add_participant(user_id, event_id)
-    @participation = Participation.new(user_id: user_id, event_id: event_id)
+  def add_participant(user_id)
+    Participation.new(user_id: user_id, event_id: @event.id).save
 
-    respond_to do |format|
-      if @participation.save
-        if current_user.id != @event.owner_id
-          format.html { redirect_to event_url(@event), notice: "You successfully joined." }
-          format.json { render :show, status: :created, location: @event }
-        end
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @participation.errors, status: :unprocessable_entity }
-      end
+    if user_id != @event.owner_id
+      notics_message = "You successfully joined."
+    else
+      notics_message = "Event was successfully created."
     end
   end
 
-  def remove_participant(user_id, event_id)
-    if user_id == @event.owner_id
-      @event.destroy
-      respond_to do |format|
-        format.html { redirect_to events_url, notice: "Event was successfully destroyed." }
-        format.json { head :no_content }
+  def remove_participant(user_id)
+    Participation.find_by(user_id: user_id, event_id: @event.id).destroy
+    @event.destroy
+    respond_to do |format|
+      if user_id == @event.owner_id
+        flash[:warning] = "Event was successfully cancelled."
+      else
+        flash[:warning] = "You have left an event."
       end
-    else
-      Participation.find_by(user_id: user_id, event_id: event_id).destroy
-      respond_to do |format|
-        format.html { redirect_to events_url, notice: "You have left an event." }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to root_path }
+      format.json { head :no_content }
     end
   end
 

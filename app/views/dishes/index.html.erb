@@ -1,4 +1,6 @@
-<p style="color: green"><%= notice %></p>
+<% if flash %>
+  <%= render 'layouts/alerts' %>
+<% end %>
 
 <h1>Dishes</h1>
 
