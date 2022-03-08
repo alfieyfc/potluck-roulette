@@ -118,14 +118,20 @@ class EventsController < ApplicationController
   end
 
   def remove_participant(user_id)
+
+    # TODO: confirmation before leaving/cancelling an event.
+
     Participation.find_by(user_id: user_id, event_id: @event.id).destroy
-    @event.destroy
+
+    if user_id == @event.owner_id
+      @event.destroy
+      msg = "The event \"" + @event.title + "\" was cancelled."
+    else
+      msg = "You have left the event \"" + @event.title + "\" hosted by " + User.find(@event.owner_id).name + "."
+    end
+
     respond_to do |format|
-      if user_id == @event.owner_id
-        flash[:warning] = "Event was successfully cancelled."
-      else
-        flash[:warning] = "You have left an event."
-      end
+      flash[:warning] = msg
       format.html { redirect_to root_path }
       format.json { head :no_content }
     end

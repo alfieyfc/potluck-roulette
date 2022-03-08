@@ -12,39 +12,48 @@
 <% end %>
 
 <div class="row my-2">
-  <%= form.label "Title of your event:", class: "d-block p-0" %>
-  <%= form.text_field :title %>
-</div>
-
-<div class="row my-2">
-  <%= form.label :event_date, class: "d-block p-0" %>
-  <%= form.date_field :event_date %>
-</div>
-
-<div class="row my-2">
-  <div class="col-12 p-0">
-    <%= form.label "Max Number of Players:", class: "d-inline" %><span> </span><span id="rangeval"
-      class="d-inline">2</span>
+  <div class="col">
+    <%= form.label "Title of your event:" %>
+    <%= form.text_field :title, class: "w-100 d-block p-0" %>
   </div>
-  <%= form.range_field :max_players, id: "max_player", in: 1..8, step: 1, value: 2, class: "d-block", oninput: 'document.getElementById("rangeval").innerText = document.getElementById("max_player").value' %>
 </div>
 
 <div class="row my-2">
-  <span class="px-0">
+  <div class="col">
+  <%= form.label :event_date %>
+  <%= form.date_field :event_date, class: "w-100 d-block p-0" %>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col">
+    <%= form.label "Max Number of Players:", class: "w-100 d-inline" %><span> </span><span id="rangeval" %>2</span>
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col">
+    <%= form.range_field :max_players, id: "max_player", in: 1..8, step: 1, value: 2, class: "w-100 d-block", oninput: 'document.getElementById("rangeval").innerText = document.getElementById("max_player").value' %>
+  </div>
+</div>
+
+<div class="row my-2">
+  <div class="col">
     <%= form.label :public %>
     <%= form.check_box  :public %>
-  </span>
+  </div>
 </div>
 
 <div class="row my-2">
-  <%= form.hidden_field :owner_id, value: current_user.id, style: "display: block" %>
-  <% if @new_room_id %>
-    <%= form.hidden_field :room_id, value: @new_room_id, style: "display: block" %>
-  <% end %>
+  <div class="col">
+    <%= form.hidden_field :owner_id, value: current_user.id, style: "display: block" %>
+    <% if @new_room_id %>
+      <%= form.hidden_field :room_id, value: @new_room_id, style: "display: block" %>
+    <% end %>
+  </div>
 </div>
 
 <div class="row my-2">
-  <div class="col-3 p-0">
+  <div class="col">
     <%= form.submit :class => "btn btn-primary w-100 p-0" %>
   </div>
 </div>

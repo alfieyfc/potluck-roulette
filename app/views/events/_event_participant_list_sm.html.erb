@@ -1,17 +1,15 @@
-<table class="table table-hover table-condensed">
+<table class="table table-hover table-condensed table-striped">
   <thead>
     <tr>
-      <th scope="col" colspan="2" class="text-center">Participant</th>
-      <th scope="col" colspan="5">Main Ingredient</th>
-      <th scope="col" colspan="5">Cuisine Style</th>
-      <th scope="col" colspan="5">Dish</th>
+      <th scope="col" class="text-center">Participant</th>
+      <th scope="col">Dish</th>
     </tr>
   </thead>
   <tbody>
-    <% Participation.where(event_id: @event.id).each do |participation| %>
+    <% Participation.where(event_id: @event.id).order(:created_at).each do |participation| %>
       <% user = User.find_by(id: participation.user_id) %>
       <tr>
-        <td scope="col" colspan="1">
+        <td scope="col">
           <% if user.id == @event.owner.id %>
             <i><strong><%= user.name %></strong></i>
           <% else %>
@@ -19,23 +17,7 @@
           <% end %>
         </td>
 
-        <td scope="col" colspan="1">
-          <% if user.id == @event.owner_id %>
-            <i><strong>Host</strong></i>
-          <% else %>
-            Guest
-          <% end %>
-        </td>
-
-        <td scope="col" colspan="5">
-        d
-        </td>
-
-        <td scope="col" colspan="5">
-        d
-        </td>
-
-        <td scope="col" colspan="5">
+        <td scope="col">
           <% btn_txt = "Upload Dish" %>
           <% Dish.where(event_id: @event.id, user_id: user.id).each do |dish| %>
             <p><%= link_to dish.name, dish_path(dish) %></p>

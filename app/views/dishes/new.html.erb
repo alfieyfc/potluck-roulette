@@ -1,14 +1,14 @@
 <div class="container mt-4">
+
   <div class="row text-center">
     <h1>Create New Dish</h1>
   </div>
+
   <%= render "form", dish: @dish %>
 
-  <br>
-
-  <div class="row">
+  <div class="row mx-0">
     <div class="col-3 p-0">
-      <%= button_to "Back to event", event_path(params[:event_id]), method: :get, class: "btn-sm w-100" %>
+      <%= button_to "Back", event_path(params[:event_id]), method: :get, class: "btn-sm w-100" %>
     </div>
   </div>
 </div>

@@ -12,27 +12,33 @@
 <% end %>
 
 <div class="row my-2">
-  <%= form.label "Name of your dish:", class: "d-block p-0" %>
-  <%= form.text_field :name %>
+  <div class="col">
+    <%= form.label "Name of your dish:" %>
+    <%= form.text_field :name, class: "w-100 d-block p-0" %>
+  </div>
 </div>
 
 <div class="row my-2">
-  <%= form.label "Image URL:", class: "d-block p-0" %>
-  <%= form.text_field :img_url %>
-
+  <div class="col">
+    <%= form.label "Image URL:" %>
+    <%= form.text_field :img_url, class: "w-100 d-block p-0" %>
+  </div>
 </div>
 
 <div class="row my-2">
-  <%= form.hidden_field :user_id, value: current_user.id %>
-  <% if dish.event_id %>
-    <%= form.hidden_field :event_id, value: dish.event_id %>
-  <% else %>
-    <%= form.hidden_field :event_id, value: params[:event_id] %>
-  <% end %>
+  <div class="col">
+    <%= form.hidden_field :user_id, value: current_user.id %>
+
+    <% if dish.event_id %>
+      <%= form.hidden_field :event_id, value: dish.event_id %>
+    <% else %>
+      <%= form.hidden_field :event_id, value: params[:event_id] %>
+    <% end %>
+  </div>
 </div>
 
 <div class="row my-2">
-  <div class="col-3 p-0">
+  <div class="col">
     <%= form.submit :class => "btn btn-primary w-100 p-0" %>
   </div>
 </div>

@@ -2,15 +2,16 @@
 
   <%= render @event %>
   <%= render "dishes/dish_carousel", dishes: Dish.where.not(img_url: [nil, ""]).where(event_id: @event.id).order(Arel.sql('RANDOM()')) %>
-  <%= render "event_participant_list" %>
-
-  <% if Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
-    <div class="row my-2">
-      <div class="col-12 px-1">
-        <%= button_to "Upload Dish", new_dish_path, params: {event_id: @event.id}, method: :get, class: "btn-sm btn-primary w-100" %>
-      </div>
+  <div class="row d-none d-md-block">
+    <div class="col">
+    <%= render "event_participant_list" %>
     </div>
-  <% end %>
+  </div>
+  <div class="row d-block d-md-none">
+    <div class="col">
+    <%= render "event_participant_list_sm" %>
+    </div>
+  </div>
 
   <div class="row my-2">
     <div class="col-3 px-1">

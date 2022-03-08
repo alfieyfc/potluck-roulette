@@ -25,9 +25,14 @@
   <div class="row text-center mt-4">
   <h3>Up Coming Events</h3>
   </div>
-  <div class="row">
-    <div class="col-12">
+  <div class="row d-none d-md-block">
+    <div class="col">
       <%= render 'events/event_list' %>
+    </div>
+  </div>
+  <div class="row d-block d-md-none">
+    <div class="col">
+      <%= render 'events/event_list_sm' %>
     </div>
   </div>
     </div>
