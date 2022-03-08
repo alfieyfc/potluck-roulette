@@ -6,7 +6,7 @@
 
   <%= render @event %>
 
-  <%= render "dishes/dish_carousel", dishes: Dish.where.not(img_url: [nil, ""]).where(event_id: @event.id).order(Arel.sql('RANDOM()')).first(3) %>
+  <%= render "dishes/dish_carousel", dishes: Dish.where.not(img_url: [nil, ""]).where(event_id: @event.id).order(Arel.sql('RANDOM()')) %>
 
   <%= render "event_participant_list" %>
 
