@@ -1,10 +1,5 @@
-
-<% if flash %>
-  <%= render 'layouts/alerts' %>
-<% end %>
-
-<div class="container mt-4">
-  <div class="container p-0 position-relative">
+<div class="container-fluid mt-4">
+  <div class="container-fluid  p-0 position-relative">
         <%= image_tag 'favicon.svg'%>
         <% if user_signed_in? %>
           <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn-sm position-absolute top-0 end-0" %>
@@ -15,14 +10,14 @@
 
 
   <div class="row">
-    <div class="col-4">
+    <div class="col-md-4 py-2">
       <% if user_signed_in? %>
         <%= render 'user_menu' %>
       <% else %>
         <%= render 'login_form', locals: { resource: current_user, resource_name: :user }%>
       <% end %>
     </div>
-    <div class="col-8 ps-0">
+    <div class="col-md-8 py-2">
       <%= render "dishes/dish_carousel", dishes: @dishes.where.not(img_url: [nil, ""]).order(Arel.sql('RANDOM()')).first(3) %>
     </div>
   </div>

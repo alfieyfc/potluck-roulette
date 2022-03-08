@@ -1,24 +1,22 @@
-<% if flash %>
-  <%= render 'layouts/alerts' %>
-<% end %>
-
 <div class="container mt-4">
 
   <%= render @event %>
-
   <%= render "dishes/dish_carousel", dishes: Dish.where.not(img_url: [nil, ""]).where(event_id: @event.id).order(Arel.sql('RANDOM()')) %>
-
   <%= render "event_participant_list" %>
 
-  <div class="row my-2">
-    <div class="col-12 px-1">
-      <%= button_to "Upload Dish", new_dish_path, params: {event_id: @event.id}, method: :get, class: "btn-sm btn-primary w-100" %>
+  <% if Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
+    <div class="row my-2">
+      <div class="col-12 px-1">
+        <%= button_to "Upload Dish", new_dish_path, params: {event_id: @event.id}, method: :get, class: "btn-sm btn-primary w-100" %>
+      </div>
     </div>
-  </div>
+  <% end %>
+
   <div class="row my-2">
     <div class="col-3 px-1">
       <%= button_to "Back", root_path, method: :get, class: "btn-sm w-100" %>
     </div>
+
     <% if current_user.id == @event.owner_id %>
       <div class="col-6 px-1">
         <%= button_to "Edit", edit_event_path(@event), method: :get, class: "btn-sm w-100" %>
@@ -27,15 +25,15 @@
         <%=  button_to "Delete", leave_event_path(@event), class: "btn-danger btn-sm w-100" %>
       </div>
     <% else %>
-        <% if !Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
-      <div class="col-6 px-1">
+      <% if !Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
+        <div class="col-6 px-1">
           <%= button_to "Join", join_event_path(@event), class: "btn-sm w-100" %>
-        <% else %>
-      <div class="offset-6 col-3 px-1">
+        </div>
+      <% else %>
+        <div class="offset-6 col-3 px-1">
           <%= button_to "Leave", leave_event_path(@event), class: "btn-warning btn-sm w-100" %>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     <% end %>
   </div>
-
 </div>
