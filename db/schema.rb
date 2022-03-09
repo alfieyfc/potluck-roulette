@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_06_152637) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_08_214727) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "dishes", force: :cascade do |t|
     t.string "name"
     t.string "img_url"
@@ -30,14 +33,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_06_152637) do
     t.string "room_id"
     t.integer "max_players"
     t.boolean "public"
-    t.integer "owner_id"
+    t.bigint "owner_id"
     t.index ["owner_id"], name: "index_events_on_owner_id"
     t.index ["room_id"], name: "index_events_on_room_id"
   end
 
+  create_table "ingredients", force: :cascade do |t|
+    t.string "name"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "participations", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "event_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_participations_on_event_id"
