@@ -7,20 +7,20 @@
     </tr>
   </thead>
   <tbody>
-  <% @events.each do |event| %>
+  <% events.order(:event_date).each do |event| %>
     <tr>
       <td>
         <% if user_signed_in? %>
-        <%= link_to event.room_id, event %>
+        <%= link_to event.room_id, event, style: "font-family: Monospace;" %>
         <% else %>
-        <%= event.room_id %>
+        <span style="font-family: Monospace;"><%= event.room_id %></span>
         <% end %>
       </td>
       <td>
         <i><%= event.event_date %></i>
       </td>
       <td>
-        <strong><i><%= @users.find_by(id: event.owner).name %></i></strong>
+        <strong><i><%= User.find_by(id: event.owner).name %></i></strong>
       </td>
     </tr>
   <% end %>

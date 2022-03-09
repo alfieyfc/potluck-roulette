@@ -9,25 +9,31 @@
     </tr>
   </thead>
   <tbody>
-  <% @events.each do |event| %>
+  <% events.order(:event_date).each do |event| %>
     <tr>
       <td>
         <%= event.title %>
       </td>
       <td>
         <% if user_signed_in? %>
-        <%= link_to event.room_id, event %>
+        <%= link_to event.room_id, event, style: "font-family: Monospace;"  %>
         <% else %>
-        <%= event.room_id %>
+        <span style="font-family: Monospace;"><%= event.room_id %></span>
         <% end %>
       </td>
       <td>
-        <%= Participation.where(event_id: event.id).count %><span>/<%= event.max_players %></span>
+        <% current_player_count = Participation.where(event_id: event.id).count %>
+        <% if current_player_count < event.max_players %>
+          <% room_availability = "color: green" %>
+        <% else %>
+          <% room_availability = "color: grey; font-style: italic" %>
+        <% end %>
+        <span style="<%= room_availability %>"><%= current_player_count %>/<%= event.max_players %></span>
       <td>
         <i><%= event.event_date %></i>
       </td>
       <td>
-        <strong><i><%= @users.find_by(id: event.owner).name %></i></strong>
+        <strong><i><%= User.find_by(id: event.owner).name %></i></strong>
       </td>
     </tr>
   <% end %>

@@ -6,6 +6,14 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+Aws.config.update(
+  endpoint: 'http://localhost:9000',
+  access_key_id: 'minioadmin',
+  secret_access_key: 'minioadmin',
+  force_path_style: true,
+  region: 'us-east-1'
+)
+
 module Workspace
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

@@ -14,14 +14,13 @@
 <div class="row my-2">
   <div class="col">
     <%= form.label "Name of your dish:" %>
-    <%= form.text_field :name, class: "w-100 d-block p-0" %>
+    <%= form.text_field :name, required: true, class: "w-100 d-block p-0" %>
   </div>
 </div>
 
 <div class="row my-2">
   <div class="col">
-    <%= form.label "Image URL:" %>
-    <%= form.text_field :img_url, class: "w-100 d-block p-0" %>
+    <%= form.file_field :image, required: true, name: "attachment[file]" %>
   </div>
 </div>
 

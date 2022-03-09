@@ -2,6 +2,10 @@
 
   <%= render @event %>
   <%= render "dishes/dish_carousel", dishes: Dish.where.not(img_url: [nil, ""]).where(event_id: @event.id).order(Arel.sql('RANDOM()')) %>
+  <div class="row m-2">
+    <h3 >Players: <%= current_player_count = Participation.where(event_id: @event.id).count %><span>/<%= @event.max_players %></span></h3>
+  </div>
+
   <div class="row d-none d-md-block">
     <div class="col">
     <%= render "event_participant_list" %>
@@ -27,9 +31,13 @@
       </div>
     <% else %>
       <% if !Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
-        <div class="col-6 px-1">
-          <%= button_to "Join", join_event_path(@event), class: "btn-sm w-100" %>
-        </div>
+          <div class="col-6 px-1">
+          <% if current_player_count < @event.max_players %>
+              <%= button_to "Join", join_event_path(@event), class: "btn-sm w-100" %>
+          <% else %>
+              <button type="button" class="btn-sm w-100" disabled>Event is full</button>
+          <% end %>
+          </div>
       <% else %>
         <div class="offset-6 col-3 px-1">
           <%= button_to "Leave", leave_event_path(@event), class: "btn-warning btn-sm w-100" %>

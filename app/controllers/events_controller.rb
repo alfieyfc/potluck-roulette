@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[ show edit update destroy join leave]
+  before_action :set_event, only: %i[ draw show edit update destroy join leave]
 
   before_action :create_room_id, only: %i[ new ]
 
@@ -17,8 +17,8 @@ class EventsController < ApplicationController
   # POST /events/1/join
   def join
     respond_to do |format|
-      if alert_msg = add_participant(current_user.id)
-        flash[:success] = alert_msg
+      if h = add_participant(current_user.id)
+        flash[h[:key]] = h[:msg]
         format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :ok, location: @event }
       end
@@ -29,6 +29,18 @@ class EventsController < ApplicationController
   # POST /events/1/leave
   def leave
     remove_participant(current_user.id)
+  end
+
+  # GET /events/1/draw
+  def draw
+    @ingredient = Ingredient.all.order(Arel.sql('RANDOM()')).first()
+    @cuisine_style = CuisineStyle.all.order(Arel.sql('RANDOM()')).first()
+    Participation.find_by(user_id: current_user.id, event_id: @event.id).update(main_ingredient_id: @ingredient.id, cuisine_style_id: @cuisine_style.id)
+  end
+
+  # GET /events/1/reset?user_id=1
+  def reset
+    Participation.find_by(user_id: params[:user_id], event_id: params[:event_id]).update(main_ingredient_id: nil, cuisine_style_id: nil)
   end
 
   # GET /events/new
@@ -46,8 +58,8 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-
-        flash[:success] = add_participant(current_user.id)
+        h = add_participant(current_user.id)
+        flash[h[:key]] = h[:msg]
         format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :created, location: @event }
       else
@@ -73,16 +85,14 @@ class EventsController < ApplicationController
 
   # DELETE /events/1 or /events/1.json
   def destroy
+    remove_dishes_upon_cancel_event
     @event.destroy
-
     respond_to do |format|
       flash[:warning] = "Event was successfully destroyed."
       format.html { redirect_to root_path }
       format.json { head :no_content }
     end
   end
-
-
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -108,13 +118,19 @@ class EventsController < ApplicationController
   end
 
   def add_participant(user_id)
-    Participation.new(user_id: user_id, event_id: @event.id).save
 
-    if user_id != @event.owner_id
-      notics_message = "You successfully joined."
-    else
-      notics_message = "Event was successfully created."
+    if Participation.where(event_id: @event.id).count < @event.max_players
+
+      Participation.new(user_id: user_id, event_id: @event.id).save
+      if user_id != @event.owner_id
+        return { key: "success", msg: "You successfully joined." }
+      else
+        return { key: "success", msg: "Event was successfully created." }
+      end
+
     end
+    return { key: "danger", msg: "Event exceeded maximum player count." }
+
   end
 
   def remove_participant(user_id)
@@ -124,6 +140,7 @@ class EventsController < ApplicationController
     Participation.find_by(user_id: user_id, event_id: @event.id).destroy
 
     if user_id == @event.owner_id
+      remove_dishes_upon_cancel_event
       @event.destroy
       msg = "The event \"" + @event.title + "\" was cancelled."
     else
@@ -134,6 +151,15 @@ class EventsController < ApplicationController
       flash[:warning] = msg
       format.html { redirect_to root_path }
       format.json { head :no_content }
+    end
+  end
+
+  def remove_dishes_upon_cancel_event
+    s3 = Aws::S3::Client.new
+    Dish.where(event_id: @event.id).each do |dish|
+      puts filename = dish.img_url.split("/testbucket/").last(1)[0]
+      puts s3.delete_object(bucket: 'testbucket', key: filename)
+      dish.destroy
     end
   end
 

@@ -39,7 +39,9 @@
 	// This can be used to network with other containers or the host.
 	"forwardPorts": [
 		3000,
-		5432
+		5432,
+		9000,
+		9001
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "bundle install",
