@@ -1,2 +1,2 @@
-CREATE USER vscode CREATEDB;
-CREATE DATABASE vscode WITH OWNER vscode;
+CREATE USER vscode WITH PASSWORD 'vscode' CREATEDB;
+CREATE DATABASE potluck_roulette_dev WITH OWNER vscode;
