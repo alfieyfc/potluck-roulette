@@ -3,10 +3,10 @@ ARG VARIANT=2-bullseye
 FROM mcr.microsoft.com/vscode/devcontainers/ruby:0-${VARIANT}
 
 # Install Rails
-RUN gem install rails webdrivers 
+RUN gem install rails webdrivers
 
 # Default value to allow debug server to serve content over GitHub Codespace's port forwarding service
-# The value is a comma-separated list of allowed domains 
+# The value is a comma-separated list of allowed domains
 ENV RAILS_DEVELOPMENT_HOSTS=".githubpreview.dev"
 
 # [Choice] Node.js version: lts/*, 16, 14, 12, 10
@@ -14,8 +14,12 @@ ARG NODE_VERSION="lts/*"
 RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"
 
 # [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends postgresql-client fonts-powerline
+
+# [Optional] Uncomment this section to use your existing id_rsa key
+COPY .devcontainer/local/id_rsa /home/vscode/.ssh/id_rsa
+RUN chown -R vscode:vscode /home/vscode/.ssh && chmod 600 /home/vscode/.ssh/id_rsa
 
 # [Optional] Uncomment this line to install additional gems.
 # RUN gem install <your-gem-names-here>

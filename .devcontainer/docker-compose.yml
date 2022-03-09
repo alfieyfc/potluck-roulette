@@ -15,7 +15,9 @@ services:
 
     volumes:
       - ..:/workspace:cached
-      - ./.zshrc:/home/vscode/.zshrc
+      # Uncommont this line to bind your own .zshrc
+      # Save your .zshrc under the .devcontainer/local/ directory
+      - ./local/.zshrc:/home/vscode/.zshrc
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
