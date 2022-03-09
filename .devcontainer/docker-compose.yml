@@ -15,9 +15,15 @@ services:
 
     volumes:
       - ..:/workspace:cached
+      - ./.zshrc:/home/vscode/.zshrc
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
+
+    environment:
+      POSTGRES_USER: vscode
+      POSTGRES_PASSWORD: vscode
+      POSTGRES_DB: potluck_roulette_dev
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
     network_mode: service:db
