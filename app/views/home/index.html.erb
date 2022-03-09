@@ -1,40 +1,40 @@
 <div class="container-fluid mt-4">
   <div class="container-fluid  p-0 position-relative">
-        <%= image_tag 'favicon.svg'%>
+    <%= image_tag 'favicon.svg'%>
+    <% if user_signed_in? %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn-sm position-absolute top-0 end-0" %>
+      <h2>Welcome, <%= current_user.name %>!!</h2>
+    <% else %>
+      <h2>Welcome to Potluck Roulette!!</h2>
+    <% end %>
+
+
+    <div class="row">
+      <div class="col-md-4 py-2">
         <% if user_signed_in? %>
-          <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn-sm position-absolute top-0 end-0" %>
-          <h2>Welcome, <%= current_user.name %>!!</h2>
+          <%= render 'user_menu' %>
         <% else %>
-          <h2>Welcome to Potluck Roulette!!</h2>
+          <%= render 'login_form', locals: { resource: current_user, resource_name: :user }%>
         <% end %>
+      </div>
+      <div class="col-md-8 py-2">
+        <%= render "dishes/dish_carousel", dishes: @dishes.where.not(img_url: [nil, ""]).order(Arel.sql('RANDOM()')).first(3) %>
+      </div>
+    </div>
 
-
-  <div class="row">
-    <div class="col-md-4 py-2">
-      <% if user_signed_in? %>
-        <%= render 'user_menu' %>
-      <% else %>
-        <%= render 'login_form', locals: { resource: current_user, resource_name: :user }%>
-      <% end %>
+    <div class="row text-left mt-4">
+      <h3>Up Coming Events:</h3>
     </div>
-    <div class="col-md-8 py-2">
-      <%= render "dishes/dish_carousel", dishes: @dishes.where.not(img_url: [nil, ""]).order(Arel.sql('RANDOM()')).first(3) %>
+    <div class="row d-none d-md-block">
+      <div class="col">
+        <%= render 'events/event_list', events: Event.all %>
+      </div>
     </div>
-  </div>
-
-  <div class="row text-center mt-4">
-  <h3>Up Coming Events</h3>
-  </div>
-  <div class="row d-none d-md-block">
-    <div class="col">
-      <%= render 'events/event_list' %>
+    <div class="row d-block d-md-none">
+      <div class="col">
+        <%= render 'events/event_list_sm', events: Event.all %>
+      </div>
     </div>
   </div>
-  <div class="row d-block d-md-none">
-    <div class="col">
-      <%= render 'events/event_list_sm' %>
-    </div>
-  </div>
-    </div>
 
 </div>

@@ -129,3 +129,62 @@ Ingredient.create([
     tags: ["葷", "羊", "肉", "紅肉", "$$$$"]
   }
 ])
+
+CuisineStyle.create([
+  {
+    name: "中國",
+    category: "regional"
+  },
+  {
+    name: "西式",
+    category: "regional"
+  },
+  {
+    name: "美國",
+    category: "regional"
+  },
+  {
+    name: "法國",
+    category: "regional"
+  },
+  {
+    name: "歐式",
+    category: "regional"
+  },
+  {
+    name: "南洋式",
+    category: "regional"
+  },
+  {
+    name: "台菜",
+    category: "regional"
+  },
+  {
+    name: "泰菜",
+    category: "regional"
+  },
+  {
+    name: "中華一番",
+    category: "fictional"
+  },
+  {
+    name: "食戟之靈",
+    category: "fictional"
+  },
+  {
+    name: "黑暗料理",
+    category: "fictional"
+  },
+  {
+    name: "突破創新",
+    category: "others"
+  },
+  {
+    name: "中世紀歐洲",
+    category: "historic"
+  },
+  {
+    name: "古代原始",
+    category: "historic"
+  }
+])

@@ -1,0 +1,2 @@
+class CuisineStyle < ApplicationRecord
+end
