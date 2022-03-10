@@ -1,10 +1,10 @@
 <%= form_for(:user, :url => session_path(:user)) do |f| %>
   <div class="field form-group py-1">
-    <%= f.text_field :email, placeholder: "Account (Email)", autocomplete: true, class: "form-control" %>
+    <%= f.text_field :email, placeholder: "Account (Email)", required: true, autocomplete: true, class: "form-control" %>
   </div>
 
   <div class="field form-group py-1">
-    <%= f.password_field :password, placeholder: "Password", class: "form-control"  %>
+    <%= f.password_field :password, placeholder: "Password", required: true, autocomplete: true, class: "form-control"  %>
   </div>
 
   <div class="row py-1 ">

@@ -1,34 +1,60 @@
-<h2>Sign up</h2>
+<div class="container mt-4">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="row text-center">
+    <h2>Sign up</h2>
   </div>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true %>
-  </div>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <div class="row my-2">
+      <div class="col offset-md-3 col-md-6">
+        <div class="field form-group py-1">
+          <%= f.label "Email" %><br />
+          <%= f.email_field :email, placeholder: "Account (Email)", required: true, autofocus: true, autocomplete: "email" %>
+        </div>
+      </div>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+    <div class="row my-2">
+      <div class="col offset-md-3 col-md-6">
+        <div class="field form-group py-1">
+          <%= f.label "Name" %><br />
+          <%= f.text_field :name, placeholder: "Name", autofocus: true %>
+        </div>
+      </div>
+    </div>
 
-<%= render "devise/shared/links" %>
+    <div class="row my-2">
+      <div class="col offset-md-3 col-md-6">
+        <div class="field form-group py-1">
+          <%= f.label "New Password (leave blanck if you don't want to change)" %>
+          <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%= f.password_field :password, placeholder: "New password", required: true, autocomplete: "new-password" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-2">
+      <div class="col offset-md-3 col-md-6">
+        <div class="field form-group py-1">
+          <%= f.label "Password Confirmation" %>
+            <%= f.password_field :password_confirmation, placeholder: "Re-type new password", required: true, autocomplete: "new-password" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Sign up" %>
+    </div>
+  <% end %>
+
+  <div class="row my-2">
+    <div class="col offset-md-4 col-md-4">
+      <%= button_to "Back", root_path, method: :get, class: "btn-sm w-100" %>
+    </div>
+  </div>
+</div>
