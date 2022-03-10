@@ -1,16 +1,30 @@
-<h2>Forgot your password?</h2>
+<div class="container mt-4">
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="row text-center">
+    <h2>Forgot your password?</h2>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-<%= render "devise/shared/links" %>
+    <div class="row my-2">
+      <div class="col offset-md-3 col-md-6">
+        <div class="field form-group py-1">
+          <%= f.email_field :email, placeholder: "Account (Email)", autofocus: true, required: true, autocomplete: "email", class: "form-control" %>
+        </div>
+      </div>
+    </div>
+    <div class="row my-2">
+      <div class="col offset-md-3 col-md-6">
+        <div class="actions form-group py-1">
+          <%= f.submit "Send me reset password instructions", class: "btn, btn-primary form-control" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="row my-2">
+    <div class="col offset-md-4 col-md-4">
+      <%= button_to "Back", root_path, method: :get, class: "btn-sm w-100" %>
+    </div>
+  </div>
+</div>
