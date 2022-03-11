@@ -22,35 +22,36 @@ class DishesController < ApplicationController
 
   # POST /dishes or /dishes.json
   def create
-
+    @event = Event.find(params[:dish][:event_id]
     @dish = Dish.new(dish_params)
     h = {file: params[:attachment][:file], filename: DateTime.now().strftime("%y%m%d%H%M%s") + "-" + @dish.name + "-" + params[:attachment][:file].original_filename}
 
-    @dish.img_url = ENV['AWS_S3_ENDPOINT'] + ENV['AWS_S3_DISH_BUCKET'] + '/' + h[:filename]
+    @dish.img_url = ENV['AWS_S3_ENDPOINT'] + @event.title + "/" + h[:filename]
 
     s3 = Aws::S3::Resource.new
-    s3.bucket(ENV['AWS_S3_DISH_BUCKET']).object(h[:filename]).upload_file(h[:file])
+    s3.bucket(@event.title).object(h[:filename]).upload_file(h[:file])
 
     respond_to do |format|
       if @dish.save
         flash[:success] = "Dish was successfully created."
-        format.html { redirect_to event_url(Event.find(params[:dish][:event_id])) }
+        format.html { redirect_to event_url(@event)) }
       else
         flash[:danger] = "Dish was not created."
-        format.html { redirect_to event_url(Event.find(params[:dish][:event_id])) }
+        format.html { redirect_to event_url(@event)) }
       end
     end
   end
 
   # PATCH/PUT /dishes/1 or /dishes/1.json
   def update
+    @event = Event.find(params[:dish][:event_id]
     respond_to do |format|
       if @dish.update(dish_params)
         flash[:success] = "Dish was successfully updated."
-        format.html { redirect_to event_url(Event.find(params[:dish][:event_id])) }
+        format.html { redirect_to event_url(@event)) }
       else
         flash[:danger] = "Dish was not updated."
-        format.html { redirect_to event_url(Event.find(params[:dish][:event_id])) }
+        format.html { redirect_to event_url(@event)) }
       end
     end
   end
@@ -59,12 +60,12 @@ class DishesController < ApplicationController
   def destroy
 
     # TODO: confirmation before deleting a dish.
-
+    @event = Event.find(@dish.event_id)
     @dish.destroy
-    filename = @dish.img_url.split('/'+ENV['AWS_S3_DISH_BUCKET']+'/').last(1)[0]
+    filename = @dish.img_url.split('/'+@event.title+'/').last(1)[0]
 
     s3 = Aws::S3::Client.new
-    s3.delete_object(bucket: ENV['AWS_S3_DISH_BUCKET'], key: filename)
+    s3.delete_object(bucket: @event.title, key: filename)
 
     respond_to do |format|
       flash[:warning] = "Dish was successfully deleted."
