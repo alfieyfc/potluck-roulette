@@ -34,10 +34,10 @@ class DishesController < ApplicationController
     respond_to do |format|
       if @dish.save
         flash[:success] = "Dish was successfully created."
-        format.html { redirect_to event_url(@event)) }
+        format.html { redirect_to event_url(@event) }
       else
         flash[:danger] = "Dish was not created."
-        format.html { redirect_to event_url(@event)) }
+        format.html { redirect_to event_url(@event) }
       end
     end
   end
@@ -48,10 +48,10 @@ class DishesController < ApplicationController
     respond_to do |format|
       if @dish.update(dish_params)
         flash[:success] = "Dish was successfully updated."
-        format.html { redirect_to event_url(@event)) }
+        format.html { redirect_to event_url(@event) }
       else
         flash[:danger] = "Dish was not updated."
-        format.html { redirect_to event_url(@event)) }
+        format.html { redirect_to event_url(@event) }
       end
     end
   end
