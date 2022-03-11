@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[ draw show edit update destroy join leave]
+  before_action :set_event, only: %i[ draw reset show edit update destroy join leave]
 
   before_action :create_room_id, only: %i[ new ]
 
@@ -35,12 +35,18 @@ class EventsController < ApplicationController
   def draw
     @ingredient = Ingredient.all.order(Arel.sql('RANDOM()')).first()
     @cuisine_style = CuisineStyle.all.order(Arel.sql('RANDOM()')).first()
-    Participation.find_by(user_id: current_user.id, event_id: @event.id).update(main_ingredient_id: @ingredient.id, cuisine_style_id: @cuisine_style.id)
+    Participation.find_by(user_id: params[:user_id], event_id: @event.id).update(main_ingredient_id: @ingredient.id, cuisine_style_id: @cuisine_style.id)
+    respond_to do |format|
+      format.html { redirect_to event_url(@event) }
+    end
   end
 
-  # GET /events/1/reset?user_id=1
+  # GET /events/1/reset?user_id=1&event_id=1
   def reset
-    Participation.find_by(user_id: params[:user_id], event_id: params[:event_id]).update(main_ingredient_id: nil, cuisine_style_id: nil)
+    Participation.find_by(user_id: params[:user_id], event_id: @event.id).update(main_ingredient_id: nil, cuisine_style_id: nil)
+    respond_to do |format|
+      format.html { redirect_to event_url(@event) }
+    end
   end
 
   # GET /events/new
