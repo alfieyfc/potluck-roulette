@@ -9,10 +9,7 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
-  database: <%= ENV['POSTGRES_DB'] %>
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
-  url: postgres://<%= ENV['POSTGRES_USER'] %>:<%= ENV['POSTGRES_PASSWORD'] %>@db:5432/<%= ENV['POSTGRES_DB'] %>?pool=5&encoding=utf-8
+  url: <%= ENV['DATABASE_URL'] %>
 
 development:
   <<: *default
