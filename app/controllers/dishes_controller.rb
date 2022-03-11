@@ -26,10 +26,10 @@ class DishesController < ApplicationController
     @dish = Dish.new(dish_params)
     h = {file: params[:attachment][:file], filename: DateTime.now().strftime("%y%m%d%H%M%s") + "-" + @dish.name + "-" + params[:attachment][:file].original_filename}
 
-    @dish.img_url = 'http://localhost:9000/testbucket/' + h[:filename]
+    @dish.img_url = ENV['AWS_S3_ENDPOINT'] + ENV['AWS_S3_DISH_BUCKET'] + '/' + h[:filename]
 
     s3 = Aws::S3::Resource.new
-    s3.bucket('testbucket').object(h[:filename]).upload_file(h[:file])
+    s3.bucket(ENV['AWS_S3_DISH_BUCKET']).object(h[:filename]).upload_file(h[:file])
 
     respond_to do |format|
       if @dish.save
@@ -61,10 +61,10 @@ class DishesController < ApplicationController
     # TODO: confirmation before deleting a dish.
 
     @dish.destroy
-    filename = @dish.img_url.split("/testbucket/").last(1)[0]
+    filename = @dish.img_url.split('/'+ENV['AWS_S3_DISH_BUCKET']+'/')).last(1)[0]
 
     s3 = Aws::S3::Client.new
-    s3.delete_object(bucket: 'testbucket', key: filename)
+    s3.delete_object(bucket: ENV['AWS_S3_DISH_BUCKET'], key: filename)
 
     respond_to do |format|
       flash[:warning] = "Dish was successfully deleted."

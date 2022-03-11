@@ -7,11 +7,11 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 Aws.config.update(
-  endpoint: 'http://localhost:9000',
-  access_key_id: 'minioadmin',
-  secret_access_key: 'minioadmin',
-  force_path_style: true,
-  region: 'us-east-1'
+  endpoint: ENV['AWS_S3_ENDPOINT'],
+  access_key_id: ENV['AWS_S3_ACCESS_KEY_ID'],
+  secret_access_key: ENV['AWS_S3_SECRET_ACCESS_KEY'],
+  force_path_style: ENV['AWS_S3_FORCE_PATH_STYLE'],
+  region: ENV['AWS_S3_REGION']
 )
 
 module Workspace

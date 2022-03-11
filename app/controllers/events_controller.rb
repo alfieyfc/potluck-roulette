@@ -163,8 +163,8 @@ class EventsController < ApplicationController
   def remove_dishes_upon_cancel_event
     s3 = Aws::S3::Client.new
     Dish.where(event_id: @event.id).each do |dish|
-      puts filename = dish.img_url.split("/testbucket/").last(1)[0]
-      puts s3.delete_object(bucket: 'testbucket', key: filename)
+      puts filename = dish.img_url.split('/' + ENV['AWS_S3_DISH_BUCKET'] + '/').last(1)[0]
+      puts s3.delete_object(bucket: ENV['AWS_S3_DISH_BUCKET'], key: filename)
       dish.destroy
     end
   end
