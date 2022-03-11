@@ -61,7 +61,7 @@ class DishesController < ApplicationController
     # TODO: confirmation before deleting a dish.
 
     @dish.destroy
-    filename = @dish.img_url.split('/'+ENV['AWS_S3_DISH_BUCKET']+'/')).last(1)[0]
+    filename = @dish.img_url.split('/'+ENV['AWS_S3_DISH_BUCKET']+'/').last(1)[0]
 
     s3 = Aws::S3::Client.new
     s3.delete_object(bucket: ENV['AWS_S3_DISH_BUCKET'], key: filename)
