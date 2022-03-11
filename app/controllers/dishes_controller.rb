@@ -22,7 +22,7 @@ class DishesController < ApplicationController
 
   # POST /dishes or /dishes.json
   def create
-    @event = Event.find(params[:dish][:event_id]
+    @event = Event.find(params[:dish][:event_id])
     @dish = Dish.new(dish_params)
     h = {file: params[:attachment][:file], filename: DateTime.now().strftime("%y%m%d%H%M%s") + "-" + @dish.name + "-" + params[:attachment][:file].original_filename}
 
@@ -44,7 +44,7 @@ class DishesController < ApplicationController
 
   # PATCH/PUT /dishes/1 or /dishes/1.json
   def update
-    @event = Event.find(params[:dish][:event_id]
+    @event = Event.find(params[:dish][:event_id])
     respond_to do |format|
       if @dish.update(dish_params)
         flash[:success] = "Dish was successfully updated."
