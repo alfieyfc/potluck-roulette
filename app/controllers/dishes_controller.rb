@@ -26,10 +26,10 @@ class DishesController < ApplicationController
     @dish = Dish.new(dish_params)
     h = {file: params[:attachment][:file], filename: DateTime.now().strftime("%y%m%d%H%M%s") + "-" + @dish.name + "-" + params[:attachment][:file].original_filename}
 
-    @dish.img_url = ENV['AWS_S3_ENDPOINT'] + @event.title + "/" + h[:filename]
+    @dish.img_url = ENV['AWS_S3_ENDPOINT'] + @event.event_date+"-"+@event.id + "/" + h[:filename]
 
     s3 = Aws::S3::Resource.new
-    s3.bucket(@event.title).object(h[:filename]).upload_file(h[:file])
+    s3.bucket(@event.event_date+"-"+@event.id).object(h[:filename]).upload_file(h[:file])
 
     respond_to do |format|
       if @dish.save
@@ -62,10 +62,10 @@ class DishesController < ApplicationController
     # TODO: confirmation before deleting a dish.
     @event = Event.find(@dish.event_id)
     @dish.destroy
-    filename = @dish.img_url.split('/'+@event.title+'/').last(1)[0]
+    filename = @dish.img_url.split('/'+@event.event_date+"-"+@event.id+'/').last(1)[0]
 
     s3 = Aws::S3::Client.new
-    s3.delete_object(bucket: @event.title, key: filename)
+    s3.delete_object(bucket: @event.event_date+"-"+@event.id, key: filename)
 
     respond_to do |format|
       flash[:warning] = "Dish was successfully deleted."
