@@ -23,8 +23,7 @@ services:
     command: sleep infinity
 
     env_file:
-      - .env.dev
-
+      - ../.env.dev
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
     network_mode: service:db
