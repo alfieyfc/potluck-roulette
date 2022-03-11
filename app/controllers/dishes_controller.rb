@@ -24,7 +24,7 @@ class DishesController < ApplicationController
   def create
     @event = Event.find(params[:dish][:event_id])
     @dish = Dish.new(dish_params)
-    puts h = {file: params[:attachment][:file], filename: DateTime.now().strftime("%y%m%d%H%M%s") + "-" + URI.encode(@dish.name) + "-" + params[:attachment][:file].original_filename}
+    puts h = {file: params[:attachment][:file], filename: DateTime.now().strftime("%y%m%d%H%M%s") + "-" + ERB::Util.url_encode(@dish.name) + "-" + params[:attachment][:file].original_filename}
 
     @dish.img_url = ENV['AWS_S3_ENDPOINT'] + @event.event_date.strftime("%y%m%d%H%M%s")+"-"+@event.id.to_s + "/" + h[:filename]
 
