@@ -14,6 +14,7 @@ services:
         NODE_VERSION: "16"
 
     volumes:
+      - bundle:/usr/local/bundle
       - ..:/workspace:cached
       # Uncommont this line to bind your own .zshrc
       # Save your .zshrc under the .devcontainer/local/ directory
@@ -106,14 +107,15 @@ services:
 
 volumes:
   postgres-data: null
+  bundle: null
 
   ## By default this config uses default local driver,
   ## For custom volumes replace with volume driver configuration.
-  data1-1:
-  data1-2:
-  data2-1:
-  data2-2:
-  data3-1:
-  data3-2:
-  data4-1:
-  data4-2:
+  data1-1: null
+  data1-2: null
+  data2-1: null
+  data2-2: null
+  data3-1: null
+  data3-2: null
+  data4-1: null
+  data4-2: null
