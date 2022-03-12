@@ -1,0 +1,29 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Room ID</th>
+      <th scope="col">Date</th>
+      <th scope="col">Host</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% Event.joins(:participations).where("user_id = ?", current_user.id).each do |event| %>
+      <tr>
+        <td>
+          <% if user_signed_in? %>
+          <%= link_to event.room_id, event, style: "font-family: Monospace;"  %>
+          <% else %>
+          <span style="font-family: Monospace;"><%= event.room_id %></span>
+          <% end %>
+        </td>
+        <td>
+          <i><%= event.event_date %></i>
+        </td>
+        <td>
+          <strong><i><%= User.find_by(id: event.owner).name %></i></strong>
+        </td>
+      </tr>
+  <% end %>
+
+  </tbody>
+</table>

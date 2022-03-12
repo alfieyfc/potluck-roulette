@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-  <% events.order(:event_date).each do |event| %>
+  <% events.where('event_date > ?', Date.today).order(:event_date).each do |event| %>
     <tr>
       <td>
         <% if user_signed_in? %>

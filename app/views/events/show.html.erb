@@ -27,7 +27,7 @@
         <%= button_to "Edit", edit_event_path(@event), method: :get, class: "btn-sm w-100" %>
       </div>
       <div class="col-3 px-1">
-        <%=  button_to "Delete", leave_event_path(@event), class: "btn-danger btn-sm w-100" %>
+        <%=  button_to "Delete", leave_event_path(@event), class: "btn-danger btn-sm w-100", form: {data: { turbo_confirm: "This will cancel the event for everyone and remove all uploaded dishes. Are you sure?" }} %>
       </div>
     <% else %>
       <% if !Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
@@ -40,7 +40,7 @@
           </div>
       <% else %>
         <div class="offset-6 col-3 px-1">
-          <%= button_to "Leave", leave_event_path(@event), class: "btn-warning btn-sm w-100" %>
+          <%= button_to "Leave", leave_event_path(@event), class: "btn-warning btn-sm w-100", form: {data: { turbo_confirm: "Your uploaded dishes in this event will be removed, too. Are you sure you want to leave?" }}%>
         </div>
       <% end %>
     <% end %>

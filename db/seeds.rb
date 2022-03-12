@@ -43,25 +43,6 @@ Event.create([
   }
 ])
 
-Participation.create([
-  {
-    user_id: 1,
-    event_id: 1
-  },
-  {
-    user_id: 1,
-    event_id: 2
-  },
-  {
-    user_id: 2,
-    event_id: 3
-  },
-  {
-    user_id: 1,
-    event_id: 3
-  }
-])
-
 Dish.create([
   {
     name: "Salmon Pot",
@@ -148,6 +129,10 @@ CuisineStyle.create([
     category: "regional"
   },
   {
+    name: "英國",
+    category: "regional"
+  },
+  {
     name: "歐式",
     category: "regional"
   },
@@ -186,5 +171,32 @@ CuisineStyle.create([
   {
     name: "古代原始",
     category: "historic"
+  }
+])
+
+Participation.create([
+  {
+    user_id: 1,
+    event_id: 1,
+    cuisine_style_id: 6,
+    main_ingredient_id: 66
+  },
+  {
+    user_id: 1,
+    event_id: 2,
+    cuisine_style_id: 5,
+    main_ingredient_id: 49
+  },
+  {
+    user_id: 2,
+    event_id: 3,
+    cuisine_style_id: 1,
+    main_ingredient_id: 49
+  },
+  {
+    user_id: 1,
+    event_id: 3,
+    cuisine_style_id: 6,
+    main_ingredient_id: 51
   }
 ])

@@ -62,8 +62,9 @@ class EventsController < ApplicationController
 
   # POST /events or /events.json
   def create
+    @event = Event.new(event_params)
     respond_to do |format|
-      if (@event = Event.new(event_params).save)
+      if (@event.save)
         add_participant(current_user.id)
         format.html { redirect_to(event_url(@event)) }
         format.json { render(:show, status: :created, location: @event) }
@@ -124,14 +125,13 @@ class EventsController < ApplicationController
   end
 
   def add_participant(user_id)
-    if Participation.where(event_id: @event.id).count < @event.max_players
+    if (Participation.where(event_id: @event.id).count < @event.max_players)
       Participation.new(user_id:, event_id: @event.id).save
-
       return flash['success'] = 'You successfully joined.' if user_id != @event.owner_id
-
-      flash['success'] = 'Event was successfully created.'
+    else
+      return flash['danger'] = 'Event exceeded maximum player count.'
     end
-    flash['danger'] = 'Event exceeded maximum player count.'
+    return flash['success'] = 'Event was successfully created.'
   end
 
   def remove_participant(user_id)
