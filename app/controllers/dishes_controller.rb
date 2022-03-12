@@ -28,8 +28,7 @@ class DishesController < ApplicationController
     file = params[:attachment][:file]
     filename = "#{Time.now.strftime('%y%m%d%H%M%s')}-#{@dish.name}-#{params[:attachment][:file].original_filename}"
 
-    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}/
-                     #{ERB::Util.url_encode(filename)}"
+    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}/#{ERB::Util.url_encode(filename)}"
 
     Aws::S3::Resource.new
                        .bucket("#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}")
