@@ -28,7 +28,13 @@
 				"icon": "terminal-powershell"
 			}
 		},
-		"terminal.integrated.defaultProfile.linux": "zsh"
+		"terminal.integrated.defaultProfile.linux": "zsh",
+		"ruby.lint": {
+			"rubocop": {
+					"useBundler": true,
+					"forceExclusion": true
+			}
+	}
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

@@ -1,0 +1,8 @@
+AllCops:
+  Exclude:
+    - db/**
+  EnabledByDefault: true
+  NewCops: false
+
+Style/MissingElse:
+  EnforcedStyle: case
