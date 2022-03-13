@@ -28,8 +28,16 @@ class DishesController < ApplicationController
     @dish = Dish.new(dish_params)
     file = params[:attachment][:file]
     filename = "#{Time.now.strftime('%y%m%d%H%M%s')}-#{@dish.name}-#{params[:attachment][:file].original_filename}"
-    bucket_name = ENV['AWS_S3_BUCKET_DEV'] || "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
-    object_uri = "#{bucket_name}/#{ERB::Util.url_encode(filename)}"
+    bucket_name = ENV['AWS_S3_DISH_BUCKET']
+    folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
+
+    if ENV['RAILS_ENV'] == "development"
+      file_path = filename
+    else
+      file_path = "#{folder_name}/#{filename}}"
+    end
+
+    object_uri = "#{bucket_name}/#{ERB::Util.url_encode(file_path)}"
 
     @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{object_uri}"
 
@@ -67,10 +75,10 @@ class DishesController < ApplicationController
     @event = Event.find(@dish.event_id)
     @dish.destroy
 
-    filename = @dish.img_url.split("/#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}/").last(1)[0]
-
+    bucket_name = ENV['AWS_S3_DISH_BUCKET']
+    filename = @dish.img_url.split("/#{bucket_name}/").last(1)[0]
     s3 = Aws::S3::Client.new
-    s3.delete_object(bucket: ("testbucket" || "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"), key: filename)
+    s3.delete_object(bucket: bucket_name, key: filename)
 
     respond_to do |format|
       flash[:warning] = 'Dish was successfully deleted.'

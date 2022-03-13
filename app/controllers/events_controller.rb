@@ -138,27 +138,36 @@ class EventsController < ApplicationController
     # TODO: confirmation before leaving/cancelling an event.
 
     Participation.find_by(user_id:, event_id: @event.id).destroy
+    remove_dishes_upon_cancel_event(user_id)
 
     if user_id == @event.owner_id
       @event.destroy
-      remove_dishes_upon_cancel_event
-      msg = t('event.flash.cancel_successful', title: @event.title)
+      flash[:warning] = t('event.flash.cancel_successful', title: @event.title)
     else
-      msg = t('event.flash.leave_successful', title: @event.title, host: User.find(@event.owner_id).name) 
+      flash[:warning] = t('event.flash.leave_successful', title: @event.title, host: User.find(@event.owner_id).name)
     end
 
     respond_to do |format|
-      flash[:warning] = msg
       format.html { redirect_to(root_path) }
     end
   end
 
-  def remove_dishes_upon_cancel_event
+  def remove_dishes_upon_cancel_event(user_id)
     s3 = Aws::S3::Client.new
-    Dish.where(event_id: @event.id).each do |dish|
-      filename = dish.img_url.split("/#{ENV['AWS_S3_DISH_BUCKET']}/").last(1)[0]
-      s3.delete_object(bucket: ::ENV['AWS_S3_DISH_BUCKET'], key: filename)
-      dish.destroy
+    if user_id == @event.owner_id
+      Dish.where(event_id: @event.id).each do |dish|
+        bucket_name = ENV['AWS_S3_DISH_BUCKET']
+        filename = dish.img_url.split("/#{bucket_name}/").last(1)[0]
+        s3.delete_object(bucket: bucket_name, key: filename)
+        dish.destroy
+      end
+    else
+      Dish.where(event_id: @event.id, user_id: user_id).each do |dish|
+        bucket_name = ENV['AWS_S3_DISH_BUCKET']
+        filename = dish.img_url.split("/#{bucket_name}/").last(1)[0]
+        s3.delete_object(bucket: bucket_name, key: filename)
+        dish.destroy
+      end
     end
   end
 end
