@@ -34,7 +34,7 @@ class DishesController < ApplicationController
       file_key = filename
     else
       folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
-      file_key = "#{folder_name}/#{filename}}"
+      file_key = "#{folder_name}/#{filename}"
     end
 
     object_uri = "#{bucket_name}/#{file_key}"
