@@ -160,7 +160,7 @@ class EventsController < ApplicationController
         bucket_name = ENV['AWS_S3_DISH_BUCKET']
         folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
         filename = dish.img_url.split("/#{folder_name}/").last(1)[0]
-        file_key = "#{bucket_name}/#{folder_name}/#{filename}"
+        file_key = "#{folder_name}/#{filename}"
         s3 = Aws::S3::Client.new
         s3.delete_object(bucket: bucket_name, key: file_key)
 
@@ -172,7 +172,7 @@ class EventsController < ApplicationController
         bucket_name = ENV['AWS_S3_DISH_BUCKET']
         folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
         filename = dish.img_url.split("/#{folder_name}/").last(1)[0]
-        file_key = "#{bucket_name}/#{folder_name}/#{filename}"
+        file_key = "#{folder_name}/#{filename}"
         s3 = Aws::S3::Client.new
         s3.delete_object(bucket: bucket_name, key: file_key)
 
