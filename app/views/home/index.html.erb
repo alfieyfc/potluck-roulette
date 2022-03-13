@@ -2,10 +2,10 @@
   <div class="container-fluid  p-0 position-relative">
     <%= image_tag 'favicon.svg'%>
     <% if user_signed_in? %>
-      <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn-sm position-absolute top-0 end-0" %>
-      <h2>Welcome, <%= current_user.name %>!!</h2>
+      <%= button_to t('index.logout'), destroy_user_session_path, method: :delete, class: "btn-sm position-absolute top-0 end-0" %>
+      <h2><%= t('index.greeting_signed_in', user_name: current_user.name) %></h2>
     <% else %>
-      <h2>Welcome to Potluck Roulette!!</h2>
+      <h2><%= t('index.greeting_anonymous') %></h2>
     <% end %>
 
 
@@ -23,7 +23,7 @@
     </div>
 
     <div class="row text-left mt-4">
-      <h3>Up Coming Events:</h3>
+      <h3><%= t('event.list.upcoming_events') %></h3>
     </div>
     <div class="row d-none d-md-block">
       <div class="col">

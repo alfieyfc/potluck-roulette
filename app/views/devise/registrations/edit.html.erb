@@ -1,14 +1,14 @@
 <div class="container mt-4">
 
   <div class="row text-center">
-    <h2>Account Settings</h2>
+    <h2><%= t('devise.registration_edit.title') %></h2>
   </div>
 
   <div class="row my-2">
     <div class="col offset-md-3 col-md-6">
       <!-- Button trigger modal -->
       <button type="button" class="form-control btn btn-secondary" data-toggle="modal" data-target="#exampleModal">
-        History
+        <%= t('devise.registration_edit.history_btn') %>
       </button>
     </div>
   </div>
@@ -20,7 +20,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Events You've Participated</h5>
+              <h5 class="modal-title" id="exampleModalLabel"><%= t('devise.registration_edit.history_modal_title') %></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -38,8 +38,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= t('common.close_btn') %></button>
+              <button type="button" class="btn btn-primary"><%= t('common.ok_btn') %></button>
             </div>
           </div>
         </div>
@@ -53,8 +53,8 @@
     <div class="row my-2">
       <div class="col offset-md-3 col-md-6">
         <div class="field form-group py-1">
-          <%= f.label "Account (Email)" %><br />
-          <%= f.email_field :email, placeholder: "Account (Email)", autocomplete: true, required: true, class: "form-control" %>
+          <%= f.label t('devise.form.account') %><br />
+          <%= f.email_field :email, placeholder: t('devise.form.account'), autocomplete: true, required: true, class: "form-control" %>
         </div>
       </div>
     </div>
@@ -68,8 +68,8 @@
     <div class="row my-2">
       <div class="col offset-md-3 col-md-6">
         <div class="field form-group py-1">
-          <%= f.label "Your name" %><br />
-          <%= f.text_field :name, placeholder: "Name", required: true, autocomplete: true, class: "form-control" %>
+          <%= f.label  t('devise.form.name') %><br />
+          <%= f.text_field :name, placeholder:  t('devise.form.name'), required: true, autocomplete: true, class: "form-control" %>
         </div>
       </div>
     </div>
@@ -79,11 +79,14 @@
     <div class="row my-2">
       <div class="col offset-md-3 col-md-6">
         <div class="field form-group py-1">
-          <%= f.label "New Password" %> <i>(leave blank if you don't want to change it)</i><br />
-          <% if @minimum_password_length %>
-            <em><%= @minimum_password_length %> characters minimum</em>
-          <% end %>
-          <%= f.password_field :password, placeholder: "New Password", autocomplete: "new-password", class: "form-control" %>
+          <%= f.label  t('devise.form.new_password') %>
+          <i><sub>
+            <%=  t('devise.form.new_password_note') %>
+            <% if @minimum_password_length %>
+              <%=  "#{t('devise.form.new_password_rule', minimum_password_length: @minimum_password_length)}" %>
+            <% end %>
+          </sub></i>
+          <%= f.password_field :password, placeholder:  t('devise.form.new_password'), autocomplete: "new-password", class: "form-control" %>
 
         </div>
       </div>
@@ -94,8 +97,8 @@
     <div class="row my-2">
       <div class="col offset-md-3 col-md-6">
         <div class="field form-group py-1">
-          <%= f.label "New Password Confirmation" %>
-          <%= f.password_field :password_confirmation, placeholder: "Re-type new password", autocomplete: "new-password", class: "form-control" %>
+          <%= f.label  t('devise.form.new_password_confirm') %>
+          <%= f.password_field :password_confirmation, placeholder:  t('devise.form.new_password_confirm_ph'), autocomplete: "new-password", class: "form-control" %>
         </div>
       </div>
     </div>
@@ -105,9 +108,9 @@
     <div class="row my-2">
       <div class="col offset-md-3 col-md-6">
         <div class="field form-group py-1">
-          <%= f.label "Current Password" %>
-          <i>(required to make updates!)</i><br />
-          <%= f.password_field :current_password, placeholder: "Current password", required: true, autocomplete: "current-password", class: "form-control" %>
+          <%= f.label t('devise.form.current_password') %>
+          <i><sub><%= t('devise.form.current_password_reason') %></i></sub>
+          <%= f.password_field :current_password, placeholder: t('devise.form.current_password'), required: true, autocomplete: "current-password", class: "form-control" %>
         </div>
       </div>
     </div>
@@ -116,7 +119,7 @@
     <div class="row my-2">
       <div class="col offset-md-3 col-md-6">
         <div class="actions form-group py-1">
-          <%= f.submit "Update", class: "btn, btn-primary form-control" %>
+          <%= f.submit t('devise.form.update_btn'), class: "btn, btn-primary form-control" %>
         </div>
       </div>
     </div>
@@ -124,7 +127,7 @@
 
   <div class="row my-2">
     <div class="col offset-md-4 col-md-4">
-      <%= button_to "Back", root_path, method: :get, class: "btn-sm w-100" %>
+      <%= button_to t('common.back_btn'), root_path, method: :get, class: "btn-sm w-100" %>
     </div>
   </div>
 
@@ -132,8 +135,9 @@
 
   <div class="row my-2">
     <div class="col offset-md-4 col-md-4">
-      <h3>Cancel my account</h3>
-      <p>Unhappy with Potluck Roulette? <%= button_to "Cancel my account", registration_path(resource_name), form: {data: { turbo_confirm: "All of your history will be removed. Are you sure you want to leave us?" }}, method: :delete, class: "btn-sm btn-danger w-100" %></p>
+      <h3><%= t('devise.registration_edit.cancel_title') %></h3>
+      <p><%= raw t('devise.registration_edit.cancel_inquery') %></p>
+      <%= button_to t('devise.registration_edit.cancel_btn'), registration_path(resource_name), form: {data: { turbo_confirm: t('devise.registration_edit.cancel_confirmation') }}, method: :delete, class: "btn-sm btn-danger w-100" %>
     </div>
   </div>
 </div>

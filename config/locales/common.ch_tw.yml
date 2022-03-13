@@ -1,0 +1,22 @@
+ch_tw:
+  title: "百味輪盤"
+  index:
+    greeting_anonymous: "歡迎加入 百味輪盤"
+    greeting_signed_in: "歡迎！%{user_name}"
+    my_account: "我的帳戶"
+    create_room: "建立新活動"
+    logout: "登出"
+  login_form:
+    account_placeholder: "帳號（電子信箱）"
+    password_placeholder: "密碼"
+    remember_me: "記住登入狀態"
+    sign_in_btn: "登入"
+    sign_up_btn: "註冊"
+    forgot_password_btn: "忘記密碼"
+  common:
+    back_btn: "上一頁"
+    ok_btn: "確認"
+    cancel_btn: "取消"
+    close_btn: "關閉"
+    edit_btn: "編輯"
+    delete_btn: "刪除"

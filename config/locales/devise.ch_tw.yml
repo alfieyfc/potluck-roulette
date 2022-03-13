@@ -1,0 +1,87 @@
+# Additional translations at https://github.com/heartcombo/devise/wiki/I18n
+
+ch_tw:
+  devise:
+    form:
+      account: "帳號（電子郵件）"
+      name: "姓名"
+      new_password: "設定新密碼"
+      new_password_note: "（若不輸入，則不更新密碼）"
+      new_password_rule: "（最少 %{minimum_password_length} 碼）"
+      new_password_confirm: "重複輸入新密碼"
+      new_password_confirm_ph: "重複輸入新密碼"
+      current_password: "密碼"
+      current_password_reason: "（輸入密碼以更新資訊）"
+      update_btn: "更新"
+      sign_up_btn: "註冊"
+    registration_new:
+      title: "註冊新帳戶"
+    registration_edit:
+      title: "我的帳戶"
+      history_btn: "歷史活動"
+      history_modal_title: "曾參與活動"
+      cancel_title: "註銷我的帳戶"
+      cancel_inquery: "對百味輪盤不滿意？<br/>請考慮聯絡開發者 (alfieyfc@gmail.com) 提供您的意見"
+      cancel_btn: "註銷帳戶"
+      cancel_confirmation: "您的帳戶及所有歷史資料 (包括曾上傳的圖片) 都將被移除！是否確定註銷帳戶？"
+    confirmations:
+      confirmed: "您的電子信箱已成功驗證通過"
+      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+    failure:
+      already_authenticated: "您已是登入狀態"
+      inactive: "您的帳號尚未啟用"
+      invalid: "無效的帳號或密碼"
+      locked: "您的帳號已遭封鎖"
+      last_attempt: "您上有 1 次嘗試機會"
+      not_found_in_database: "無效的帳號或密碼"
+      timeout: "自從您上次登入已經過了一段時間，請重新登入"
+      unauthenticated: "請先登入或申請新帳號"
+      unconfirmed: "您的電子信箱須先進行認證才能登入"
+    mailer:
+      confirmation_instructions:
+        subject: "【百味輪盤】電子信箱帳號驗證步驟通知信"
+      reset_password_instructions:
+        subject: "【百味輪盤】密碼變更步驟通知信"
+      unlock_instructions:
+        subject: "【百味輪盤】取消封鎖步驟通知信"
+      email_changed:
+        subject: "【百味輪盤】電子信箱異動通知信"
+      password_change:
+        subject: "【百味輪盤】密碼異動通知信"
+    omniauth_callbacks:
+      failure: "以 %{kind} 登入失敗： \"%{reason}\""
+      success: "成功以 %{kind} 登入"
+    passwords:
+      no_token: "請以「密碼變更步驟通知信」提供之完整連結造訪此頁面"
+      send_instructions: "以送出「密碼變更步驟通知信」至您的電子信箱"
+      send_paranoid_instructions: "若此帳號存在，您將於幾分鐘後收到「密碼變更步驟通知信」"
+      updated: "成功變更密碼並登入！"
+      updated_not_active: "成功變更密碼！"
+    registrations:
+      destroyed: "成功移除您的帳戶。後會有期！"
+      signed_up: "歡迎！您已完成註冊！"
+      signed_up_but_inactive: "註冊成功！請啟用帳戶以完成登入"
+      signed_up_but_locked: "註冊成功！請解鎖帳戶以完成登入"
+      signed_up_but_unconfirmed: "註冊成功！您將收到「電子信箱帳號驗證步驟通知信」，請進行驗證以完成登入"
+      update_needs_confirmation: "帳戶資料更新成功！您將收到「電子信箱帳號驗證步驟通知信」，請進行驗證"
+      updated: "帳戶資料更新成功！"
+      updated_but_not_signed_in: "帳戶資料更新成功！請重新以新密碼完成登入"
+    sessions:
+      signed_in: "成功登入！"
+      signed_out: "成功登出！"
+      already_signed_out: "成功登出！"
+    unlocks:
+      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"

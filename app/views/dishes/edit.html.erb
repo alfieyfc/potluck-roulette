@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <div class="container mt-4">
 
-  <h1>Editing dish</h1>
+  <h1><%= t('dish.edit.title') %></h1>
 
   <%= render "form", dish: @dish %>
 
@@ -9,7 +9,7 @@
 
   <div class="row">
     <div class="col-3 p-0">
-      <%= button_to "Cancel", dish_path, method: :get, class: "btn-sm w-100" %>
+      <%= button_to t('common.cancel_btn'), dish_path, method: :get, class: "btn-sm w-100" %>
     </div>
   </div>
 </div>

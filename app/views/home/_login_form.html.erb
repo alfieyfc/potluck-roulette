@@ -1,31 +1,31 @@
 <%= form_for(:user, :url => session_path(:user)) do |f| %>
   <div class="field form-group py-1">
-    <%= f.text_field :email, placeholder: "Account (Email)", required: true, autocomplete: true, class: "form-control" %>
+    <%= f.text_field :email, placeholder: t('login_form.account_placeholder'), required: true, autocomplete: true, class: "form-control" %>
   </div>
 
   <div class="field form-group py-1">
-    <%= f.password_field :password, placeholder: "Password", required: true, autocomplete: true, class: "form-control"  %>
+    <%= f.password_field :password, placeholder: t('login_form.password_placeholder'), required: true, autocomplete: true, class: "form-control"  %>
   </div>
 
   <div class="row py-1 ">
     <div class="col">
       <div class="field form-group text-end">
         <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+        <%= f.label t('login_form.remember_me') %>
       </div>
     </div>
   </div>
 
-  <%= f.submit 'Sign in', class: "btn btn-primary form-control py-1" %>
+  <%= f.submit t('login_form.sign_in_btn'), class: "btn btn-primary form-control py-1" %>
 
   <div class="row justify-content-end py-1 ">
     <div class="col">
-      <%= link_to "Sign up new account", new_user_registration_path, class: "btn btn-secondary btn-sm w-100" %>
+      <%= link_to t('login_form.sign_up_btn'), new_user_registration_path, class: "btn btn-secondary btn-sm w-100" %>
     </div>
   </div>
   <div class="row justify-content-end py-1 ">
     <div class="col">
-      <%= link_to "Forgot password?", new_password_path(:user), class: "btn btn-secondary btn-sm w-100" %>
+      <%= link_to t('login_form.forgot_password_btn'), new_password_path(:user), class: "btn btn-secondary btn-sm w-100" %>
     </div>
   </div>
 

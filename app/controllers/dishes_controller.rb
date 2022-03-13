@@ -10,6 +10,7 @@ class DishesController < ApplicationController
   end
 
   # GET /dishes/1 or /dishes/1.json
+  # TODO: show full image & description (new field)
   def show; end
 
   # GET /dishes/new
@@ -30,6 +31,7 @@ class DishesController < ApplicationController
 
     @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}/#{ERB::Util.url_encode(filename)}"
 
+    # TODO: Use AWS::S3::Client to upload, to be able to set content type.
     Aws::S3::Resource.new
                        .bucket("#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}")
                        .object(filename).upload_file(file)
@@ -46,6 +48,7 @@ class DishesController < ApplicationController
 
   # PATCH/PUT /dishes/1 or /dishes/1.json
   def update
+    # TODO: Update S3 image file if uploaded new file
     @event = Event.find(params[:dish][:event_id])
     respond_to do |format|
       if @dish.update(dish_params)

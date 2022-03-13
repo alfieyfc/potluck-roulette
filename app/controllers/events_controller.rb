@@ -79,7 +79,7 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        flash[:success] = 'Event was successfully updated.'
+        flash[:success] = t('event.flash.update_succesful')
         format.html { redirect_to(event_url(@event)) }
         format.json { render(:show, status: :ok, location: @event) }
       else
@@ -94,7 +94,7 @@ class EventsController < ApplicationController
     remove_dishes_upon_cancel_event
     @event.destroy
     respond_to do |format|
-      flash[:warning] = 'Event was successfully destroyed.'
+      flash[:warning] = t.('event.flash.cancel_successful')
       format.html { redirect_to(root_path) }
       format.json { head(:no_content) }
     end
@@ -127,11 +127,11 @@ class EventsController < ApplicationController
   def add_participant(user_id)
     if (Participation.where(event_id: @event.id).count < @event.max_players)
       Participation.new(user_id:, event_id: @event.id).save
-      return flash['success'] = 'You successfully joined.' if user_id != @event.owner_id
+      return flash['success'] = t('event.flash.join_successful')  if user_id != @event.owner_id
     else
-      return flash['danger'] = 'Event exceeded maximum player count.'
+      return flash['danger'] = t('event.flash.join_failed_max')
     end
-    return flash['success'] = 'Event was successfully created.'
+    return flash['success'] = t('event.flash.create_successful')
   end
 
   def remove_participant(user_id)
@@ -142,9 +142,9 @@ class EventsController < ApplicationController
     if user_id == @event.owner_id
       @event.destroy
       remove_dishes_upon_cancel_event
-      msg = "The event \"#{@event.title}\" was cancelled."
+      msg = t('event.flash.cancel_successful', title: @event.title)
     else
-      msg = "You have left the event \"#{@event.title}\" hosted by #{User.find(@event.owner_id).name}."
+      msg = t('event.flash.leave_successful', title: @event.title, host: User.find(@event.owner_id).name) 
     end
 
     respond_to do |format|

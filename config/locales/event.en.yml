@@ -1,0 +1,44 @@
+en:
+  event:
+    participation:
+      participant_header: "Participant"
+      cuisine_style_header: "Cuisine Style"
+      main_ingredient_header: "Main Ingredient"
+      dish_header: "Dish"
+      draw_challenge_btn: "Draw Challenge!"
+      draw_challenge_guest_btn: "Draw challenge for guest"
+      upload_dish_btn: "Upload Dish"
+      upload_more_btn: "Upload More"
+      reset_challenge_btn: "Reset"
+      host: "Host"
+    flash:
+      update_successful: 'Event was successfully updated.'
+      join_successful: 'You successfully joined.'
+      join_failed_max: 'Event exceeded maximum player count.'
+      create_successful: 'Event was successfully created.'
+      cancel_successful: "The event \"%{title}\" was cancelled."
+      leave_successful: "You have left the event \"%{title}\" hosted by %{host}."
+    edit:
+      title: 'Edit Event'
+    show:
+      date: 'Event Date:'
+      players: 'Open seats:'
+      join_btn: 'Join'
+      leave_btn: 'Leave'
+      leave_warning: 'Your uploaded dishes in this event will be removed, too. Are you sure you want to leave?'
+      delete_warnig: 'This will cancel the event for everyone and remove all uploaded dishes. Are you sure?'
+    list:
+      upcoming_events: 'Upcoming events:'
+      event_name_header: 'Event Name'
+      room_id_header: 'Room ID'
+      max_players_header: 'Players'
+      event_date_header: 'Date'
+      event_host_header: 'Host'
+    new:
+      title: 'Create New Event'
+    form:
+      title: 'Title of your event'
+      date: 'Event date'
+      max_players: 'Maximum number of players:'
+      create_event_btn: 'Create Event'
+

@@ -24,7 +24,11 @@
         <p>
           <%= user_name %>
           <br />
-          風格：<%= CuisineStyle.find(participation.cuisine_style_id).name %>｜材料：<%= Ingredient.find(participation.main_ingredient_id).name %>
+          <%= t('dish.carousel.cuisine_style') %>
+          <%= CuisineStyle.find(participation.cuisine_style_id).name %>
+          ｜
+          <%= t('dish.carousel.main_ingredient') %>
+          <%= Ingredient.find(participation.main_ingredient_id).name %>
           <% if !@event %>
             <br />
             <%= event.title %>

@@ -1,0 +1,12 @@
+en:
+  dish:
+    made_by_user: "Made by %{user} at "
+    edit:
+      title: "Edit Dish"
+    new:
+      title: "Create New Dish"
+      name: "Name of your dish:"
+      create_btn: "Create Dish"
+    carousel:
+      cuisine_style: ""
+      main_ingredient: ""

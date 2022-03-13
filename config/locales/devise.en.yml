@@ -2,6 +2,28 @@
 
 en:
   devise:
+    form:
+      account: "Account (email)"
+      name: "Your name"
+      new_password: "New password"
+      new_password_note: "(leave black if you don't want to change it"
+      new_password_rule: "(%{minimum_password_length} characters minimum)"
+      new_password_confirm: "New password confirmation"
+      new_password_confirm_ph: "Re-type new password"
+      current_password: "Current password"
+      current_password_reason: "(required to make updates!)"
+      update_btn: "Update"
+      sign_up_btn: "Sign up"
+    registration_new:
+      title: "Sign Up New Account"
+    registration_edit:
+      title: "Account Settings"
+      history_btn: "History"
+      history_modal_title: "Events I've Participated"
+      cancel_title: "Cancel my account"
+      cancel_inquery: "Unhappy with Potluck Roulette? Please consider giving us feedback at alfieyfc@gmail.com"
+      cancel_btn: "Cancel my account"
+      cancel_confirmation: "All of your history will be removed. Are you sure you want to leave us?"
     confirmations:
       confirmed: "Your email address has been successfully confirmed."
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."

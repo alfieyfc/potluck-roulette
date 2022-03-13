@@ -1,0 +1,44 @@
+ch_tw:
+  event:
+    participation:
+      participant_header: "參與成員"
+      cuisine_style_header: "風格"
+      main_ingredient_header: "食材"
+      dish_header: "菜餚成品"
+      draw_challenge_btn: "抽選題目！"
+      draw_challenge_guest_btn: "替來賓抽題"
+      upload_dish_btn: "上傳成品"
+      upload_more_btn: "上傳更多"
+      reset_challenge_btn: "重抽題目"
+      host: "主辦"
+
+    flash:
+      update_successful: '成功更新活動資訊'
+      join_successful: '成功加入活動'
+      join_failed_max: '活動名額已滿'
+      create_successful: '成功建立活動'
+      cancel_successful: "成功刪除活動「%{title}」"
+      leave_successful: "成功退出 %{host} 建立的活動「%{title}」"
+    edit:
+      title: '編輯活動'
+    show:
+      date: '活動日期：'
+      players: '剩餘名額：'
+      join_btn: '報名'
+      leave_btn: '退出'
+      leave_warning: '您於此活動的紀錄也將被移除，確定要退出活動嗎？'
+      delete_warning: '刪除活動將同時移除所有參與人員於此活動的紀錄，確定要刪除活動嗎？'
+    list:
+      upcoming_events: '活動列表'
+      event_name_header: '活動標題'
+      room_id_header: '活動編號'
+      max_players_header: '人數'
+      event_date_header: '日期'
+      event_host_header: '主辦'
+    new:
+      title: '建立新活動'
+    form:
+      title: '活動標題'
+      date: '日期'
+      max_players: '參與人數上限：'
+      create_btn: '建立活動'

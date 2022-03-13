@@ -1,14 +1,14 @@
 <div class="container mt-4">
 
   <div class="row text-center">
-    <h1>Create New Event</h1>
+    <h1><%= t('event.new.title') %></h1>
   </div>
 
   <%= render "form", event: @event %>
 
   <div class="row my-2">
     <div class="col offset-md-4 col-md-4">
-      <%= button_to "Back", root_path, method: :get, class: "btn-sm w-100" %>
+      <%= button_to t('common.back_btn'), root_path, method: :get, class: "btn-sm w-100" %>
     </div>
   </div>
 </div>

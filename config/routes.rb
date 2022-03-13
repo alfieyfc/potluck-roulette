@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
-  resources :ingredients
-  resources :events
   devise_for :users
-  resources :dishes
+  resources :events, except: [:index]
+  resources :dishes, except: [:index]
   root 'home#index'
-  get 'dishes/index'
   post 'events/:id/join', to: 'events#join', as: 'join_event'
   post 'events/:id/leave', to: 'events#leave', as: 'leave_event'
   get 'events/:id/draw', to: 'events#draw', as: 'draw_ingredient_style'

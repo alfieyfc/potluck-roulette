@@ -1,16 +1,24 @@
 <table class="table table-hover table-condensed">
   <thead>
     <tr>
-      <th scope="col" colspan="2" class="text-center">Participant</th>
-      <th scope="col" colspan="5">Main Ingredient</th>
-      <th scope="col" colspan="5">Cuisine Style</th>
-      <th scope="col" colspan="5">Dish</th>
+      <th></th>
+      <th scope="col" colspan="1"><%= t('event.participation.participant_header') %></th>
+      <th scope="col" colspan="5"><%= t('event.participation.cuisine_style_header') %></th>
+      <th scope="col" colspan="5"><%= t('event.participation.main_ingredient_header') %></th>
+      <th scope="col" colspan="5"><%= t('event.participation.dish_header') %></th>
     </tr>
   </thead>
   <tbody>
     <% Participation.where(event_id: @event.id).order(:created_at).each do |participation| %>
       <% user = User.find_by(id: participation.user_id) %>
       <tr>
+
+        <td class="text-end">
+          <% if user.id == @event.owner_id %>
+            <i><strong><%= t('event.participation.host') %></strong></i>
+          <% end %>
+        </td>
+
         <td scope="col" colspan="1">
           <% if user.id == @event.owner.id %>
             <i><strong><%= user.name %></strong></i>
@@ -18,42 +26,34 @@
             <%= user.name %>
           <% end %>
           <% if (current_user == user || current_user.id == @event.owner.id) && (participation.main_ingredient_id && participation.cuisine_style_id) %>
-            <%= button_to "Reset", reset_ingredient_style_path, params: {event_id: @event.id, user_id: user.id}, method: :get, class: "btn-sm btn-secondary w-100" %>
-          <% end %>
-        </td>
-
-        <td scope="col" colspan="1">
-          <% if user.id == @event.owner_id %>
-            <i><strong>Host</strong></i>
-          <% else %>
-            Guest
+            <%= button_to t('event.participation.reset_challenge_btn'), reset_ingredient_style_path, params: {event_id: @event.id, user_id: user.id}, method: :get, class: "btn-sm btn-secondary w-100" %>
           <% end %>
         </td>
 
         <% if participation.main_ingredient_id && participation.cuisine_style_id %>
           <td scope="col" colspan="5">
-              <%= Ingredient.find(participation.main_ingredient_id).name %>
+              <%= CuisineStyle.find(participation.cuisine_style_id).name %>
           </td>
           <td scope="col" colspan="5">
-              <%= CuisineStyle.find(participation.cuisine_style_id).name %>
+              <%= Ingredient.find(participation.main_ingredient_id).name %>
           </td>
 
         <% else %>
           <td scope="col" colspan="10">
             <% if current_user == user %>
-              <%= button_to "Draw!", draw_ingredient_style_path, params: {event_id: @event.id, user_id: user.id}, method: :get, class: "btn-sm btn-primary w-100" %>
+              <%= button_to t('event.participation.draw_challenge_btn'), draw_ingredient_style_path, params: {event_id: @event.id, user_id: user.id}, method: :get, class: "btn-sm btn-primary w-100" %>
             <% elsif current_user.id == @event.owner_id%>
-              <%= button_to "Draw for guest!", draw_ingredient_style_path, params: {event_id: @event.id, user_id: user.id}, method: :get, class: "btn-sm btn-secondary w-100" %>
+              <%= button_to t('event.participation.draw_challenge_guest_btn'), draw_ingredient_style_path, params: {event_id: @event.id, user_id: user.id}, method: :get, class: "btn-sm btn-secondary w-100" %>
             <% end %>
           </td>
         <% end %>
 
 
         <td scope="col" colspan="5">
-          <% btn_txt = "Upload Dish" %>
+          <% btn_txt = t('event.participation.upload_dish_btn') %>
           <% Dish.where(event_id: @event.id, user_id: user.id).each do |dish| %>
             <p><%= link_to dish.name, dish_path(dish) %></p>
-            <% btn_txt = "Upload More" %>
+            <% btn_txt = t('event.participation.upload_more_btn') %>
           <% end %>
           <% if current_user.id == user.id %>
             <%= button_to btn_txt, new_dish_path, params: {event_id: @event.id}, method: :get, class: "btn-sm btn-primary w-100" %>

@@ -1,12 +1,11 @@
 <div class="container mt-4">
-<h1>Editing event</h1>
+  <h1><%= t('event.edit.title') %></h1>
 
-<%= render "form", event: @event %>
+  <%= render "form", event: @event %>
 
-<br>
-
-<div>
-  <%= link_to "Show this event", @event %> |
-  <%= link_to "Back to events", events_path %>
-</div>
+  <div class="row my-2">
+    <div class="col offset-md-4 col-md-4">
+      <%= button_to t('common.back_btn'), event_url(@event), method: :get, class: "btn-sm w-100" %>
+    </div>
+  </div>
 </div>

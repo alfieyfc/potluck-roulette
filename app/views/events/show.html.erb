@@ -3,7 +3,7 @@
   <%= render @event %>
   <%= render "dishes/dish_carousel", dishes: Dish.where.not(img_url: [nil, ""]).where(event_id: @event.id).order(Arel.sql('RANDOM()')) %>
   <div class="row m-2">
-    <h3 >Players: <%= current_player_count = Participation.where(event_id: @event.id).count %><span>/<%= @event.max_players %></span></h3>
+    <h5 ><%= t('event.show.players') %> <%= open_seats = @event.max_players - Participation.where(event_id: @event.id).count %></h5>
   </div>
 
   <div class="row d-none d-md-block">
@@ -19,28 +19,28 @@
 
   <div class="row my-2">
     <div class="col-3 px-1">
-      <%= button_to "Back", root_path, method: :get, class: "btn-sm w-100" %>
+      <%= button_to t('common.back_btn'), root_path, method: :get, class: "btn-sm w-100" %>
     </div>
 
     <% if current_user.id == @event.owner_id %>
       <div class="col-6 px-1">
-        <%= button_to "Edit", edit_event_path(@event), method: :get, class: "btn-sm w-100" %>
+        <%= button_to t('common.edit_btn'), edit_event_path(@event), method: :get, class: "btn-sm w-100" %>
       </div>
       <div class="col-3 px-1">
-        <%=  button_to "Delete", leave_event_path(@event), class: "btn-danger btn-sm w-100", form: {data: { turbo_confirm: "This will cancel the event for everyone and remove all uploaded dishes. Are you sure?" }} %>
+        <%=  button_to t('common.delete_btn'), leave_event_path(@event), class: "btn-danger btn-sm w-100", form: {data: { turbo_confirm: t('event.show.delete_warning') }} %>
       </div>
     <% else %>
       <% if !Participation.find_by(event_id: @event.id, user_id: current_user.id) %>
           <div class="col-6 px-1">
-          <% if current_player_count < @event.max_players %>
-              <%= button_to "Join", join_event_path(@event), class: "btn-sm w-100" %>
+          <% if open_seats %>
+              <%= button_to t('event.show.join_btn'), join_event_path(@event), class: "btn-sm w-100" %>
           <% else %>
               <button type="button" class="btn-sm w-100" disabled>Event is full</button>
           <% end %>
           </div>
       <% else %>
         <div class="offset-6 col-3 px-1">
-          <%= button_to "Leave", leave_event_path(@event), class: "btn-warning btn-sm w-100", form: {data: { turbo_confirm: "Your uploaded dishes in this event will be removed, too. Are you sure you want to leave?" }}%>
+          <%= button_to t('event.show.leave_btn'), leave_event_path(@event), class: "btn-warning btn-sm w-100", form: {data: { turbo_confirm: t('event.show.leave_warning') }}%>
         </div>
       <% end %>
     <% end %>

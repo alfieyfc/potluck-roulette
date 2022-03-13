@@ -1,0 +1,12 @@
+ch_tw:
+  dish:
+    made_by_user: "%{user} 出品於 "
+    edit:
+      title: "編輯菜餚資訊"
+    new:
+      title: "新增菜餚成品"
+      name: "菜餚名稱"
+      create_btn: "新增"
+    carousel:
+      cuisine_style: "風格: "
+      main_ingredient: "食材: "

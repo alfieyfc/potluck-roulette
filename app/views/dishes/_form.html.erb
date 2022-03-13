@@ -13,7 +13,7 @@
 
 <div class="row my-2">
   <div class="col">
-    <%= form.label "Name of your dish:" %>
+    <%= form.label t('dish.new.name') %>
     <%= form.text_field :name, required: true, class: "w-100 d-block p-0" %>
   </div>
 </div>
@@ -38,7 +38,7 @@
 
 <div class="row my-2">
   <div class="col">
-    <%= form.submit :class => "btn btn-primary w-100 p-0" %>
+    <%= form.submit t('dish.new.create_btn'), class: "btn btn-primary w-100 p-0" %>
   </div>
 </div>
 <% end %>
