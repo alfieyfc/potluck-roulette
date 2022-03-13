@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-  <% events.where('event_date > ?', Date.today).order(:event_date).each do |event| %>
+  <% events.where('event_date >= ?', Date.today).order(:event_date).each do |event| %>
     <tr>
       <td>
         <% if user_signed_in? %>
@@ -16,9 +16,11 @@
         <span style="font-family: Monospace;"><%= event.room_id %></span>
         <% end %>
       </td>
+
       <td>
         <i><%= event.event_date %></i>
       </td>
+
       <td>
         <strong><i><%= User.find_by(id: event.owner).name %></i></strong>
       </td>

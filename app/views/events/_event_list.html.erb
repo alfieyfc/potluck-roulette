@@ -9,34 +9,38 @@
     </tr>
   </thead>
   <tbody>
-  <% events.where('event_date >= ?', Date.today).order(:event_date).each do |event| %>
-    <tr>
-      <td>
-        <%= event.title %>
-      </td>
-      <td>
-        <% if user_signed_in? %>
-        <%= link_to event.room_id, event, style: "font-family: Monospace;"  %>
-        <% else %>
-        <span style="font-family: Monospace;"><%= event.room_id %></span>
-        <% end %>
-      </td>
-      <td>
+    <% events.where('event_date >= ?', Date.today).order(:event_date).each do |event| %>
+      <tr>
+        <td>
+          <%= event.title %>
+        </td>
+
+        <td>
+          <% if user_signed_in? %>
+          <%= link_to event.room_id, event, style: "font-family: Monospace;"  %>
+          <% else %>
+          <span style="font-family: Monospace;"><%= event.room_id %></span>
+          <% end %>
+        </td>
+
         <% current_player_count = Participation.where(event_id: event.id).count %>
         <% if current_player_count < event.max_players %>
           <% room_availability = "color: green" %>
         <% else %>
           <% room_availability = "color: grey; font-style: italic" %>
         <% end %>
-        <span style="<%= room_availability %>"><%= current_player_count %>/<%= event.max_players %></span>
-      <td>
-        <i><%= event.event_date %></i>
-      </td>
-      <td>
-        <strong><i><%= User.find_by(id: event.owner).name %></i></strong>
-      </td>
-    </tr>
-  <% end %>
+        <td>
+          <span style="<%= room_availability %>"><%= current_player_count %>/<%= event.max_players %></span>
+        </td>
 
+        <td>
+          <i><%= event.event_date %></i>
+        </td>
+
+        <td>
+          <strong><i><%= User.find_by(id: event.owner).name %></i></strong>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
