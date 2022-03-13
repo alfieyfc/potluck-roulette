@@ -74,12 +74,10 @@ class DishesController < ApplicationController
     # TODO: confirmation before deleting a dish.
     @event = Event.find(@dish.event_id)
 
-    puts bucket_name = ENV['AWS_S3_DISH_BUCKET']
-    puts folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
-    puts filename = @dish.img_url.split("/#{folder_name}/").last(1)[0]
-    puts file_key = "#{folder_name}/#{filename}"
-    puts obj = Aws::S3::Resource.new.bucket(folder_name).object(filename)
-    puts obj.delete
+    folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
+    filename = @dish.img_url.split("/#{folder_name}/").last(1)[0]
+    file_key = "#{folder_name}/#{filename}"
+    Aws::S3::Resource.new.bucket(folder_name).object(filename).delete
 
     @dish.destroy
 

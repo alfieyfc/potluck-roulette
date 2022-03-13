@@ -157,24 +157,20 @@ class EventsController < ApplicationController
     if user_id == @event.owner_id
       Dish.where(event_id: @event.id).each do |dish|
 
-        bucket_name = ENV['AWS_S3_DISH_BUCKET']
         folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
         filename = dish.img_url.split("/#{folder_name}/").last(1)[0]
         file_key = "#{folder_name}/#{filename}"
-        s3 = Aws::S3::Client.new
-        s3.delete_object(bucket: bucket_name, key: file_key)
+        Aws::S3::Resource.new.bucket(folder_name).object(filename).delete
 
         dish.destroy
       end
     else
       Dish.where(event_id: @event.id, user_id:).each do |dish|
 
-        bucket_name = ENV['AWS_S3_DISH_BUCKET']
         folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
         filename = dish.img_url.split("/#{folder_name}/").last(1)[0]
         file_key = "#{folder_name}/#{filename}"
-        s3 = Aws::S3::Client.new
-        s3.delete_object(bucket: bucket_name, key: file_key)
+        Aws::S3::Resource.new.bucket(folder_name).object(filename).delete
 
         dish.destroy
       end
