@@ -28,13 +28,14 @@ class DishesController < ApplicationController
     @dish = Dish.new(dish_params)
     file = params[:attachment][:file]
     filename = "#{Time.now.strftime('%y%m%d%H%M%s')}-#{@dish.name}-#{params[:attachment][:file].original_filename}"
+    bucket_name = ENV['AWS_S3_BUCKET_DEV'] || "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
+    object_uri = "#{bucket_name}/#{ERB::Util.url_encode(filename)}"
 
-    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}/#{ERB::Util.url_encode(filename)}"
+    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{object_uri}"
 
-    # TODO: Use AWS::S3::Client to upload, to be able to set content type.
-    Aws::S3::Resource.new
-                       .bucket("#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}")
-                       .object(filename).upload_file(file)
+    obj = Aws::S3::Resource.new.bucket(bucket_name).object(filename)
+    obj.upload_file(file)
+    obj.copy_from({acl: 'public-read', content_type: 'image/jpeg', metadata_directive: 'REPLACE', copy_source: object_uri})
 
     respond_to do |format|
       if @dish.save
@@ -69,7 +70,7 @@ class DishesController < ApplicationController
     filename = @dish.img_url.split("/#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}/").last(1)[0]
 
     s3 = Aws::S3::Client.new
-    s3.delete_object(bucket: "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}", key: filename)
+    s3.delete_object(bucket: ("testbucket" || "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"), key: filename)
 
     respond_to do |format|
       flash[:warning] = 'Dish was successfully deleted.'

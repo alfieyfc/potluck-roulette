@@ -25,10 +25,10 @@
           <%= user_name %>
           <br />
           <%= t('dish.carousel.cuisine_style') %>
-          <%= CuisineStyle.find(participation.cuisine_style_id).name %>
+          <%= participation.cuisine_style_id? ? CuisineStyle.find(participation.cuisine_style_id).name : "" %>
           ｜
           <%= t('dish.carousel.main_ingredient') %>
-          <%= Ingredient.find(participation.main_ingredient_id).name %>
+          <%= participation.main_ingredient_id? ? Ingredient.find(participation.main_ingredient_id).name : "" %>
           <% if !@event %>
             <br />
             <%= event.title %>
