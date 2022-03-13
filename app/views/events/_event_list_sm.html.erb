@@ -16,9 +16,11 @@
         <span style="font-family: Monospace;"><%= event.room_id %></span>
         <% end %>
       </td>
+
       <td>
         <i><%= event.event_date %></i>
       </td>
+
       <td>
         <strong><i><%= User.find_by(id: event.owner).name %></i></strong>
       </td>
