@@ -31,19 +31,20 @@ class DishesController < ApplicationController
     bucket_name = ENV['AWS_S3_DISH_BUCKET']
     if ENV['RAILS_ENV'] == "development"
       folder_name = bucket_name
-      file_key = filename
+      file_key = "#{bucket_name}/#{filename}"
+      object_url = "#{folder_name}/#{ERB::Util.url_encode(filename)}"
     else
       folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
-      file_key = "#{folder_name}/#{filename}"
+      file_key = "#{bucket_name}/#{folder_name}/#{filename}"
+      object_url = "#{bucket_name}/#{folder_name}/#{ERB::Util.url_encode(filename)}"
     end
 
-    object_uri = "#{bucket_name}/#{file_key}"
 
-    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{ERB::Util.url_encode(object_uri)}"
+    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{object_url}"
 
     obj = Aws::S3::Resource.new.bucket(folder_name).object(filename)
     obj.upload_file(file)
-    obj.copy_from({acl: 'public-read', content_type: 'image/jpeg', metadata_directive: 'REPLACE', copy_source: object_uri})
+    obj.copy_from({acl: 'public-read', content_type: 'image/jpeg', metadata_directive: 'REPLACE', copy_source: file_key})
 
     respond_to do |format|
       if @dish.save
@@ -75,7 +76,7 @@ class DishesController < ApplicationController
     @event = Event.find(@dish.event_id)
 
     puts bucket_name = ENV['AWS_S3_DISH_BUCKET']
-    puts file_key = @dish.img_url.split("#{bucket_name}%2F").last(1)[0]
+    puts file_key = @dish.img_url.split("/#{bucket_name}/").last(1)[0]
     puts s3 = Aws::S3::Client.new
     puts s3.delete_object(bucket: bucket_name, key: file_key)
 
