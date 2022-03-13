@@ -73,12 +73,13 @@ class DishesController < ApplicationController
   def destroy
     # TODO: confirmation before deleting a dish.
     @event = Event.find(@dish.event_id)
-    @dish.destroy
 
-    bucket_name = ENV['AWS_S3_DISH_BUCKET']
-    file_key = @dish.img_url.split("/#{bucket_name}/").last(1)[0]
-    s3 = Aws::S3::Client.new
-    s3.delete_object(bucket: bucket_name, key: file_key)
+    puts bucket_name = ENV['AWS_S3_DISH_BUCKET']
+    puts file_key = @dish.img_url.split("#{bucket_name}%2F").last(1)[0]
+    puts s3 = Aws::S3::Client.new
+    puts s3.delete_object(bucket: bucket_name, key: file_key)
+
+    @dish.destroy
 
     respond_to do |format|
       flash[:warning] = 'Dish was successfully deleted.'

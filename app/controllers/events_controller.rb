@@ -157,14 +157,14 @@ class EventsController < ApplicationController
     if user_id == @event.owner_id
       Dish.where(event_id: @event.id).each do |dish|
         bucket_name = ENV['AWS_S3_DISH_BUCKET']
-        filename = dish.img_url.split("/#{bucket_name}/").last(1)[0]
+        puts filename = dish.img_url.split("#{bucket_name}%2F").last(1)[0]
         s3.delete_object(bucket: bucket_name, key: filename)
         dish.destroy
       end
     else
-      Dish.where(event_id: @event.id, user_id: user_id).each do |dish|
+      Dish.where(event_id: @event.id, user_id:).each do |dish|
         bucket_name = ENV['AWS_S3_DISH_BUCKET']
-        filename = dish.img_url.split("/#{bucket_name}/").last(1)[0]
+        puts filename = dish.img_url.split("#{bucket_name}%2F").last(1)[0]
         s3.delete_object(bucket: bucket_name, key: filename)
         dish.destroy
       end
