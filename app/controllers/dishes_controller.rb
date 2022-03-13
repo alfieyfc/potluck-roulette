@@ -37,9 +37,9 @@ class DishesController < ApplicationController
       file_key = "#{folder_name}/#{filename}}"
     end
 
-    object_uri = "#{bucket_name}/#{file_key)}"
+    object_uri = "#{bucket_name}/#{file_key}"
 
-    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{ERB::Util.url_encode({object_uri})}"
+    @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{ERB::Util.url_encode(object_uri)}"
 
     obj = Aws::S3::Resource.new.bucket(folder_name).object(filename)
     obj.upload_file(file)
