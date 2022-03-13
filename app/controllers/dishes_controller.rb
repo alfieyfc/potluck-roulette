@@ -32,13 +32,12 @@ class DishesController < ApplicationController
     if ENV['RAILS_ENV'] == "development"
       folder_name = bucket_name
       file_key = "#{bucket_name}/#{filename}"
-      object_url = "#{folder_name}/#{ERB::Util.url_encode(filename)}"
     else
       folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
       file_key = "#{bucket_name}/#{folder_name}/#{filename}"
-      object_url = "#{bucket_name}/#{folder_name}/#{ERB::Util.url_encode(filename)}"
     end
 
+    object_url = "#{folder_name}/#{ERB::Util.url_encode(filename)}"
 
     @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{object_url}"
 
