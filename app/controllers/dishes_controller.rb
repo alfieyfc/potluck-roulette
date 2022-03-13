@@ -27,17 +27,18 @@ class DishesController < ApplicationController
     @event = Event.find(params[:dish][:event_id])
     @dish = Dish.new(dish_params)
     file = params[:attachment][:file]
-    filename = "#{Time.now.strftime('%y%m%d%H%M%s')}-#{@dish.name}-#{params[:attachment][:file].original_filename}"
+    filename_raw = "#{Time.now.strftime('%y%m%d%H%M%s')}-#{@dish.name}-#{params[:attachment][:file].original_filename}"
+    filename = ERB::Util.url_encode(filename_raw).tr('\\\{\^\}\%\`\"\'\]\>\[\~\<\#\|','').downcase
     bucket_name = ENV['AWS_S3_DISH_BUCKET']
     if ENV['RAILS_ENV'] == "development"
       folder_name = bucket_name
       file_key = "#{bucket_name}/#{filename}"
     else
-      folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
+      folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}".tr('\\\{\^\}\%\`\"\'\]\>\[\~\<\#\|','').downcase
       file_key = "#{bucket_name}/#{folder_name}/#{filename}"
     end
 
-    object_url = "#{folder_name}/#{ERB::Util.url_encode(filename)}"
+    object_url = "#{folder_name}/#{filename}"
 
     @dish.img_url = "#{ENV['AWS_S3_ENDPOINT']}#{object_url}"
 
