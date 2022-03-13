@@ -75,7 +75,9 @@ class DishesController < ApplicationController
     @event = Event.find(@dish.event_id)
 
     puts bucket_name = ENV['AWS_S3_DISH_BUCKET']
-    puts file_key = @dish.img_url.split("/#{bucket_name}/").last(1)[0]
+    puts folder_name = "#{@event.event_date.strftime('%y%m%d%H%M%s')}-#{@event.id}"
+    puts filename = @dish.img_url.split("/#{folder_name}/").last(1)[0]
+    puts file_key = "#{bucket_name}/#{folder_name}/#{filename}"
     puts s3 = Aws::S3::Client.new
     puts s3.delete_object(bucket: bucket_name, key: file_key)
 
